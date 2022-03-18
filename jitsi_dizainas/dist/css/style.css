@@ -42,3 +42,27 @@ img {
 	cursor: pointer;
 	transition: 1s;
 }
+
+.container-sm{
+
+		background:linear-gradient(25deg, #06918B 0%, #117C99 100%); 
+	 width:300px;
+	 margin:30px auto;
+	 border-radius:0.4em;
+	 border:1px solid #191919;
+	 overflow:hidden;
+	 position:relative;
+	 box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+	 top:-75px;
+	 text-transform: uppercase;
+	 font-family: "Lato", sans-serif;
+   
+}
+
+.container-sm h3{
+	font-family: sans-serif;
+}
+.container-sm label{
+
+	font-size: small;
+}
