@@ -58,7 +58,10 @@ img {
 	 font-family: "Lato", sans-serif;
    
 }
+.container-sm p {
 
+	margin-bottom: 15px;
+}
 .container-sm h3{
 	font-family: sans-serif;
 }
