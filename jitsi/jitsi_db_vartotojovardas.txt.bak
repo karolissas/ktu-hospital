@@ -1,0 +1,4 @@
+meet.ktuligonine.lt/<meeting_id>/meeting-refererence#userInfo.displayName=“<first last>”
+
+Administratoriaus/Gydytojo paskyru kurimas:
+prosodyctl register <name>.ktuligonine.lt jitsi.ktuligonine.lt <password>
