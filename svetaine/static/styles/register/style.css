@@ -5,27 +5,10 @@ img {
 	max-height: 100%;
 	padding-right: 20px;
 }
-.slider {
-	width: 500px;
-	height: 300px;
-	border-radius: 10px;
-	overflow: hidden;
-}
-.slides {
-	width: 500%;
-	height: 500px;
-	display: flex;
-}
-.slides input {
-	display: none;
-}
-.slide {
-	width: 20%;
-	transition: 10s;
-}
-.slide img {
-	width: 800px;
-	height: 500px;
+
+.main-logo {
+	height: 110px;
+	width: 200px;
 }
 
 .navi-manu {
@@ -43,29 +26,82 @@ img {
 	transition: 1s;
 }
 
-.container-sm{
-
-		background:linear-gradient(25deg, #06918B 0%, #117C99 100%); 
-	 width:300px;
-	 margin:30px auto;
-	 border-radius:0.4em;
-	 border:1px solid #191919;
-	 overflow:hidden;
-	 position:relative;
-	 box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
-	 top:-75px;
-	 text-transform: uppercase;
-	 font-family: "Lato", sans-serif;
-   
-}
-.container-sm p {
-
-	margin-bottom: 15px;
-}
-.container-sm h3{
+.msg {
 	font-family: sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+	margin-top: -40px;
 }
-.container-sm label{
 
-	font-size: small;
+.container-reg{
+
+	background: linear-gradient(25deg, #06918B 0%, #117C99 100%);
+	max-width: 400px;
+	height: 570px;
+	border-radius: 0.4em;
+	border: none;
+	overflow: hidden;
+	position: relative;
+	box-shadow: 0 5px 10px 5px rgba(0,0,0,0.2);
+	top: -75px;
+	font-family: sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
+
+.reg-header {
+	font-family: sans-serif;
+	font-size: 30px;
+	text-shadow: -3px -3px #DADADA50;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: white;
+	padding: 60px 0px 20px 0px;
+}
+
+.reg-text {
+	font-family: sans-serif;
+	font-size: 16px;
+}
+
+.reg-text-sub {
+	font-family: sans-serif;
+	font-size: 10px;
+}
+
+.input-box {
+	border-radius: 0.4em;
+}
+
+.reg-button {
+	width: 150px;
+	height: 50px;
+	animation: reg-unhover 0.5s forwards;
+}
+
+.reg-button:hover {
+	animation: reg-hover 0.5s forwards;
+}
+
+@keyframes reg-hover {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.8;
+	}
+}
+
+@keyframes reg-unhover {
+	0% {
+		opacity: 0.8;
+	}
+	100% {
+		opacity: 1;
+	}
 }

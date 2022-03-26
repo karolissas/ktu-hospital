@@ -29,7 +29,6 @@ img {
 .msg {
 	font-family: sans-serif;
 	font-size: 12px;
-	font-weight: bold;
 	position: absolute;
 	margin-left: auto;
 	margin-right: auto;
@@ -37,11 +36,11 @@ img {
 	margin-top: -40px;
 }
 
-.container-login{
+.container-reg{
 
 	background: linear-gradient(25deg, #06918B 0%, #117C99 100%);
 	max-width: 400px;
-	height: 400px;
+	height: 570px;
 	border-radius: 0.4em;
 	border: none;
 	overflow: hidden;
@@ -54,7 +53,7 @@ img {
 	width: 50%;
 }
 
-.login-header {
+.reg-header {
 	font-family: sans-serif;
 	font-size: 30px;
 	text-shadow: -3px -3px #DADADA50;
@@ -64,12 +63,12 @@ img {
 	padding: 60px 0px 20px 0px;
 }
 
-.login-text {
+.reg-text {
 	font-family: sans-serif;
 	font-size: 16px;
 }
 
-.login-text-sub {
+.reg-text-sub {
 	font-family: sans-serif;
 	font-size: 10px;
 }
@@ -78,17 +77,17 @@ img {
 	border-radius: 0.4em;
 }
 
-.login-button {
+.reg-button {
 	width: 150px;
 	height: 50px;
-	animation: login-unhover 0.5s forwards;
+	animation: reg-unhover 0.5s forwards;
 }
 
-.login-button:hover {
-	animation: login-hover 0.5s forwards;
+.reg-button:hover {
+	animation: reg-hover 0.5s forwards;
 }
 
-@keyframes login-hover {
+@keyframes reg-hover {
 	0% {
 		opacity: 1;
 	}
@@ -97,7 +96,7 @@ img {
 	}
 }
 
-@keyframes login-unhover {
+@keyframes reg-unhover {
 	0% {
 		opacity: 0.8;
 	}

@@ -51,8 +51,8 @@
             <section class="hero text-light text-center">
                 <div class="container-sm">
                     <div class="hero-inner">
-                        <h1 class="hero-title h2-mobile mt-0 is-revealing">KTU ligoninės svetainės pagrindinis puslapis</h1>
-						<p class="hero-paragraph is-revealing">Išsamus simptomų ir gydymo vadovas, įskaitant tai, ką daryti ir kada kreiptis pagalbos.</p>
+                        <h1 class="hero-title h2-mobile mt-0 is-revealing" style="font-family: sans-serif;">KTU ligoninės svetainės pagrindinis puslapis</h1>
+						<p class="hero-paragraph is-revealing" style="font-family: sans-serif;">Išsamus simptomų ir gydymo vadovas, įskaitant tai, ką daryti ir kada kreiptis pagalbos.</p>
                         <div class="hero-media">
 							<div class="slide-container">
 							<span id="slider-image-1"></span>
@@ -74,10 +74,11 @@
 				    </div>
 				</div>
             </section>
-
+            
+            <hr>
             <section class="clients section">
                 <div class="container">
-                    <div class="clients-inner section-inner has-top-divider">
+                    <div class="clients-inner section-inner">
                         <div class="container-sm">
                             <ul class="list-reset mb-0">
                                 <li>
@@ -91,69 +92,43 @@
                     </div>
                 </div>
             </section>
+            <hr>
 
-            <section class="features-extended section">
-                <div class="container">
-                    <div class="features-extended-inner section-inner has-top-divider">
-                        <div class="features-extended-header text-center">
+            <p class="section-header">MEDICINOS AKTUALIJOS</p>
+
+            <section class="cards section center" style="width: 80%;">
+                
+                <div class="row">
+                    <div class="column">
+                        <div class="card">
+                            <img class="circular--square center" src="{{ url_for('static', filename='images/index/file2.jpg') }}" alt="Medicina">
+                                <div class="container1">
+                                    <h1 class="card-header">Medicina nuo A iki Z</h1>
+                                    <p class="card-text">Sužinokite, kaip veikia jūsų vaistas, kaip ir kada jį vartoti, galimą šalutinį poveikį ir atsakymus į dažniausiai užduodamus klausimus.</p>
+                                </div>
                         </div>
-                        <div class="feature-extended">
-                            <div class="feature-extended-image is-revealing">
-                                <svg width="480" height="360" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <filter x="-500%" y="-500%" width="1000%" height="1000%" filterUnits="objectBoundingBox" id="dropshadow-1">
-                                            <feOffset dy="16" in="SourceAlpha" result="shadowOffsetOuter"/>
-                                            <feGaussianBlur stdDeviation="24" in="shadowOffsetOuter" result="shadowBlurOuter"/>
-                                            <feColorMatrix values="0 0 0 0 0.12 0 0 0 0 0.17 0 0 0 0 0.21 0 0 0 0.2 0" in="shadowBlurOuter"/>
-                                        </filter>
-                                    </defs>
-									<img src="{{ url_for('static', filename='images/index/file2.jpg') }}/">
-                                </svg>
-                            </div>
-                            <div class="feature-extended-body">
-                                <h3 class="mt-0">Medicina nuo A iki Z</h3>
-								<p>Sužinokite, kaip veikia jūsų vaistas, kaip ir kada jį vartoti, galimą šalutinį poveikį ir atsakymus į dažniausiai užduodamus klausimus.</p>
-                            </div>
+                    </div>
+                    <div class="column">
+                        <div class="card">
+                            <img class="circular--square center" src="{{ url_for('static', filename='images/index/file3.png') }}" alt="Koronavirusas">
+                                <div class="container2">
+                                    <h1 class="card-header">Koronavirusas (COVID-19)</h1> 
+                                    <p class="card-text">Gaukite naujausių patarimų apie COVID-19, įskaitant informaciją apie simptomus, saviizoliaciją ir testavimą.</p>
+                                </div>
                         </div>
-                        <div class="feature-extended">
-                            <div class="feature-extended-image is-revealing">
-                                <svg width="480" height="360" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <filter x="-500%" y="-500%" width="1000%" height="1000%" filterUnits="objectBoundingBox" id="dropshadow-2">
-                                            <feOffset dy="16" in="SourceAlpha" result="shadowOffsetOuter"/>
-                                            <feGaussianBlur stdDeviation="24" in="shadowOffsetOuter" result="shadowBlurOuter"/>
-                                            <feColorMatrix values="0 0 0 0 0.12 0 0 0 0 0.17 0 0 0 0 0.21 0 0 0 0.2 0" in="shadowBlurOuter"/>
-                                        </filter>
-                                    </defs>
-									<img src="{{ url_for('static', filename='images/index/file3.jpg') }}/">
-                                </svg>
-                            </div>
-                            <div class="feature-extended-body">
-                                <h3 class="mt-0">Koronavirusas (COVID-19)</h3>
-								<p>Gaukite naujausių patarimų apie COVID-19, įskaitant informaciją apie simptomus, saviizoliaciją ir testavimą.</p>
-                            </div>
-                        </div>
-                        <div class="feature-extended">
-                            <div class="feature-extended-image is-revealing">
-                                <svg width="480" height="360" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <filter x="-500%" y="-500%" width="1000%" height="1000%" filterUnits="objectBoundingBox" id="dropshadow-3">
-                                            <feOffset dy="16" in="SourceAlpha" result="shadowOffsetOuter"/>
-                                            <feGaussianBlur stdDeviation="24" in="shadowOffsetOuter" result="shadowBlurOuter"/>
-                                            <feColorMatrix values="0 0 0 0 0.12 0 0 0 0 0.17 0 0 0 0 0.21 0 0 0 0.2 0" in="shadowBlurOuter"/>
-                                        </filter>
-                                    </defs>
-									<img src="{{ url_for('static', filename='images/index/file4.jpg') }}/">
-                                </svg>
-                            </div>
-                            <div class="feature-extended-body">
-								<h3 class="mt-0">Padėkite mums teikti reikiamą gydymą</h3>
-								<p>Dėl koronaviruso (COVID-19) gali būti sunku žinoti, ką daryti, jei jaučiatės blogai. Svarbu kreiptis medicininės pagalbos, jei manote, kad jos reikia.</p>
+                    </div>
+                    <div class="column">
+                        <div class="card">
+                            <img class="circular--square center" src="{{ url_for('static', filename='images/index/file4.png') }}" alt="Padėkite..">
+                                <div class="container3">
+                                <h1 class="card-header">Sekite simptomus</h1> 
+                                <p class="card-text">Dėl koronaviruso (COVID-19) gali būti sunku žinoti, ką daryti, jei jaučiatės blogai. Svarbu kreiptis medicininės pagalbos, jei manote, kad jos reikia.</p> 
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+                <br><br><br>
+        </section>
 
         </main>
 

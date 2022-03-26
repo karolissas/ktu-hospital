@@ -7,6 +7,7 @@
     <title>KTU ligonine</title>
     <link href="https://fonts.googleapis.com/css?family=PT+Serif:700" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/login/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
 </head>
 <body class="is-boxed has-animations">
@@ -21,17 +22,13 @@
                                     <title>KTU ligonine</title>
                                     <defs>
 										<div id="header">
-										<img src="{{ url_for('static', filename='logo.png') }}/" alt="" style="height: 110px; width: 200px;">
+										<img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt="">
                                     </defs>
                                     <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd"/>
                                 </svg>
                             </a>
                         </h1>
                     </div>
-                    <ul class="header-links list-reset m-0" style="padding-top: 70px">
-						<li><a href="#">Kas yra E.SUSITIKIMAS?</a></li>
-						<li><a href="#">Kaip naudotis?</a></li>
-					</ul>
 					<ul class="header-links list-reset m-0" style="padding-top: 70px">
 						<li><a>&emsp;</li>
                         <li>
@@ -44,25 +41,18 @@
 
         <main>
             <section class="hero text-light text-center">
-                <div class="container-sm">
-                    <form>
-                        <h3>Prisijunkite</h3>
-                        <div class="inset">
-                        <p>
-                          <label for="email">El. paštas</label>
-                          <input type="text" name="email" id="email">
-                        </p>
-                        <p>
-                          <label for="password">Slaptažodis</label>
-                          <input type="password" name="password" id="password">
-                        </p>
-                        </div>
-                        <p class="p-container">
-                          <input type="submit" name="submit" class="button button-sm button-shadow" value="Prisijungti">
-                        </p>
-                      </form>
+                <div class="container-login">
+                    <p class="login-header">Prisijungimas</p>
+                    <p class="msg" style="color: {{ msg_color }};"> {{ message }} </p>
+                    <form action="{{ url_for('login') }}" method="POST">
+                        {{ form.hidden_tag() }}
+                        <p class="form-block login-text">El. paštas:<br><i class="fa fa-envelope fa-lg" style="padding-right: 10px;"></i>{{ form.email(class_='input-box', size='30', placeholder='vardenis.pavardenis@pastas.com') }}</p>
+				        <p class="form-block login-text">Slaptažodis:<br><i class="fa fa-lock fa-lg" style="padding-right: 10px;"></i> {{ form.password(class_='input-box', size='30', placeholder='************') }}</p>
+
+                        <input class="button login-button" type="submit" name="Prisijungti" value="Prisijungti">
+                    </form>
+                    <p class="login-text-sub"><a href="{{ url_for('register') }}">Neturi paskyros? Registruokis čia</a></a></p>
                 </div>
-				</div>
             </section>
 
         </main>
