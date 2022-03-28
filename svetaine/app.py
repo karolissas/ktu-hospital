@@ -15,6 +15,7 @@ import sqlite3
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_urlsafe(25)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+app.config['WTF_CSRF_ENABLED'] = False
 app.static_folder = 'static'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 Bootstrap(app)
@@ -36,12 +37,17 @@ user_login.login_view = 'login'
 class LoginForm(FlaskForm):
     email = StringField('El. paštas', validators=[InputRequired(), Length(max=25)])
     password = PasswordField('Slaptažodis', validators=[InputRequired(), Length(max=30)])
-    # -----------------------------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------------
+# -- Duomenų keitimo forma
+class ChangeData(FlaskForm):
+    email = StringField('El. pašto adresas', validators=[Email(message='Neteisingas el. pašto adresas'), Length(max=50)])
+    phone = StringField('Telefono numeris', validators=[Length(min=5)])
+# -----------------------------------------------------------------------------------------------------
 # -- Slaptažodžio keitimo forma
 class ChangePass(FlaskForm):
-    password = PasswordField('Slaptažodis', validators=[InputRequired(), Length(min=8, max=50)])
-    new_password = PasswordField('Slaptažodis', validators=[InputRequired(), Length(min=8, max=50)])
-    repeat_password = PasswordField('Slaptažodis', validators=[InputRequired(), Length(min=8, max=50)])
+    password = PasswordField('Senas slaptažodis', validators=[Length(min=8, max=50)])
+    new_password = PasswordField('Naujas slaptažodis', validators=[Length(min=8, max=50)])
+    repeat_password = PasswordField('Pakartokite naują slaptažodį', validators=[Length(min=8, max=50)])
 # -----------------------------------------------------------------------------------------------------
 # -- Registracijos forma
 class RegistrationForm(FlaskForm):
@@ -157,16 +163,46 @@ def logout():
     return render_template('login.html', form = form, message = message, msg_color = msg_color)
 
 @login_required
-@app.route("/paskyra")
+@app.route("/paskyra", methods=['GET','POST'])
 def account():
-    return render_template('account.html', user = current_user)
+    # Kintamieji
+    user = User.query.filter_by(unique_id = current_user.unique_id).first()
+    changepass = ChangePass()
+    changedata = ChangeData()
+    
+    # Asmeninių duomenų keitimo forma
+    message = ''
+    msg_color = 'white'
 
-@login_required
-@app.route("/keistislaptazodi")
-def changepass():
-    return 0
+    if request.method == 'POST' and changedata.validate_on_submit() and request.form['atnaujintiduomenis']:
+        user.email = changedata.email.data
+        user.phone = changedata.phone.data
+        db.session.commit()
+        msg_color = 'lightgreen'
+        message = 'Duomenys atnaujinti.'
+        return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
+    
+    # Slaptažodžio keitimo forma
+    if request.method == 'POST' and changepass.validate_on_submit() and request.form['atnaujintislaptazodi']:
+        if check_password_hash(current_user.password, changepass.password.data):
+            
+            if changepass.new_password.data == changepass.repeat_password.data:
+
+                passhash = generate_password_hash(changepass.new_password.data, method='sha256')
+                user.password = passhash
+                db.session.commit()
+                msg_color = 'lightgreen'
+                message = 'Slaptažodis pakeistas.'
+                return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
+            else:
+                msg_color = 'darkred'
+                message = 'Naujas slaptažodis nesutampa.'
+                return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
+        else:
+            msg_color = 'darkred'
+            message = 'Senas slaptažodis įvestas neteisingai.'
+            return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
+    return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata)
 
 if __name__ == "__main__":
-    csrf = CSRFProtect()
-    csrf.init_app(app)
     app.run(debug = True)

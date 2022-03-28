@@ -185,3 +185,6 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 	width: 200px;
 }
 
+.input-box {
+	border-radius: 0.4em;
+}
