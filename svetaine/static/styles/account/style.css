@@ -188,3 +188,11 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .input-box {
 	border-radius: 0.4em;
 }
+
+.photo_u{
+    border-radius: 80px;
+    border: black 2px solid;
+}
+.imageplaceholder{
+    width: 30%;
+}
