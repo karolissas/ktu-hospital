@@ -1,4 +1,3 @@
-from flask import Flask
 from flask import Flask, render_template, request, redirect, url_for
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
@@ -7,9 +6,9 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import StringField, PasswordField, DateField, FileField, IntegerField
 from wtforms.validators import InputRequired, Email, Length
+from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
-import secrets
-import sqlite3
+import secrets, os
 
 # Sukuriama aplikacijos konfigūracija
 app = Flask(__name__)
@@ -35,23 +34,23 @@ user_login.login_view = 'login'
 # -----------------------------------------------------------------------------------------------------
 # -- Prisijungimo forma
 class LoginForm(FlaskForm):
-    email = StringField('El. paštas', validators=[InputRequired(), Length(max=25)])
-    password = PasswordField('Slaptažodis', validators=[InputRequired(), Length(max=30)])
+    email = StringField('El. paštas', validators=[InputRequired(), Length(max=50)])
+    password = PasswordField('Slaptažodis', validators=[InputRequired(), Length(max=50)])
 # -----------------------------------------------------------------------------------------------------
 # -- Duomenų keitimo forma
 class ChangeData(FlaskForm):
     email = StringField('El. pašto adresas', validators=[Email(message='Neteisingas el. pašto adresas'), Length(max=50)])
     phone = StringField('Telefono numeris', validators=[Length(min=5)])
 # -----------------------------------------------------------------------------------------------------
+# -- Nuotraukos keitimo forma
+class ChangeImage(FlaskForm):
+    image = FileField(u'Nuotrauka')
+# -----------------------------------------------------------------------------------------------------
 # -- Slaptažodžio keitimo forma
 class ChangePass(FlaskForm):
     password = PasswordField('Senas slaptažodis', validators=[Length(min=8, max=50)])
     new_password = PasswordField('Naujas slaptažodis', validators=[Length(min=8, max=50)])
     repeat_password = PasswordField('Pakartokite naują slaptažodį', validators=[Length(min=8, max=50)])
-    # -----------------------------------------------------------------------------------------------------
-# -- Nuotraukos keitimo forma
-class ChangeImage(FlaskForm):
-    image = FileField(u'Nuotrauka')
 # -----------------------------------------------------------------------------------------------------
 # -- Registracijos forma
 class RegistrationForm(FlaskForm):
@@ -140,6 +139,8 @@ def register():
                         personal_code = form.personal_code.data,
                         phone = form.phone.data,
                         email = form.email.data,
+                        position = 'Pacientas',
+                        image_url = 'default.png',
                         password = passhash)
         email_exists = User.query.filter_by(email = form.email.data).first()
         # Checking if the email is already used
@@ -174,21 +175,50 @@ def account():
     changepass = ChangePass()
     changedata = ChangeData()
     changeimage = ChangeImage()
-    
-    # Asmeninių duomenų keitimo forma
     message = ''
     msg_color = 'white'
+    
+    # Tikrinama naudotojo rolė
+    if user.position == 'Pacientas':
+        load = 'account_patient.html'
+    elif user.position == 'Administratorius':
+        load = 'account_admin.html'
+    else:
+        load = 'account_doctor.html'
 
-    if request.method == 'POST' and changedata.validate_on_submit() and request.form['atnaujintiduomenis']:
+    # Asmeninių duomenų keitimo forma
+    if request.method == 'POST' and changedata.validate_on_submit():
         user.email = changedata.email.data
         user.phone = changedata.phone.data
         db.session.commit()
         msg_color = 'lightgreen'
         message = 'Duomenys atnaujinti.'
-        return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+        return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
     
+    # Nuotraukos keitimo forma
+    if request.method == 'POST' and changeimage.validate_on_submit() and user.position != 'Pacientas' and user.position != 'Administratorius':
+        file = changeimage.image.data
+        if file:
+            file_name = file.filename
+            print(file_name)
+            if file_name.endswith('.png'):
+                file.save(os.path.join(app.root_path, 'static/user_images/' + user.unique_id + '.png'))
+                user.image_url = user.unique_id + '.png'
+                db.session.commit()
+                message = 'Nuotrauka atnaujinta.'
+                msg_color = 'lightgreen'
+                return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+            else:
+                message = 'Netinkamas nuotraukos formatas (ne .png).'
+                msg_color = 'lightgreen'
+                return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+        else:
+            message = 'Neįkeltas nuotraukos failas.'
+            msg_color = 'darkred'
+            return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+
     # Slaptažodžio keitimo forma
-    if request.method == 'POST' and changepass.validate_on_submit() and request.form['atnaujintislaptazodi']:
+    if request.method == 'POST' and changepass.validate_on_submit():
         if check_password_hash(current_user.password, changepass.password.data):
             
             if changepass.new_password.data == changepass.repeat_password.data:
@@ -198,16 +228,21 @@ def account():
                 db.session.commit()
                 msg_color = 'lightgreen'
                 message = 'Slaptažodis pakeistas.'
-                return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+                return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
             else:
                 msg_color = 'darkred'
                 message = 'Naujas slaptažodis nesutampa.'
-                return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+                return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
         else:
             msg_color = 'darkred'
             message = 'Senas slaptažodis įvestas neteisingai.'
-            return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
-    return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage)
+            return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+    return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage)
+
+@login_required
+@app.route('/ligu-istorija')
+def patient_history():
+    return render_template('patient_history.html', user = current_user)
 
 if __name__ == "__main__":
     app.run(debug = True)

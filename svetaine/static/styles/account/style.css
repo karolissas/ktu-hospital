@@ -228,8 +228,10 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .user-image {
 	margin-left: auto;
 	margin-right: auto;
-	width: 50%;
 	border-radius: 50%;
+	width: 50%;
+	max-width: 250px;
+	height: auto;
 }
 
 .user-smalltext {

@@ -35,48 +35,53 @@
                     </div>
                     <ul class="header-links list-reset m-0">
 						<li><a href="#">Vizitai</a></li>
-						<li><a href="#">Ligos istorija</a></li>
-						<li><a href="#">Paslaugos</a></li>
+						<li><a href="#">Pacientai</a></li>
 					</ul>
-					<ul class="header-links list-reset m-0">
-						<li><a>&emsp;</li>
-                        <li>
-                            <a href="{{ url_for('logout') }}"> Atsijungti</a>
-                        </li>
-                    </ul>
+                    <div class="navbar_right">
+                        <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fas fa-chevron-down"></i>
+                                <span class="username" style="padding-left: 50px;">{{ user.first_name }} {{ user.last_name }} </span>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="{{ url_for('account') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036;">Nustatymai</a>
+                                <a href="{{ url_for('logout') }}">Atsijungti</a>
+                            </div>
+                        </div>
+                	</div>
                 </div>
             </div>
-        </header>	
+        </header>
 
-    <div class="card overflow-hidden" style="width:1078px;margin:0 auto;float:none;margin-bottom:30px;border-style:solid;border-width: thick;border-color:black;border-radius:10px;box-shadow: 0px 0px 15px 15px grey; padding-top: 50px;">
-        <div class="col-md-9" style="text-align:left;">
-            <div class="tab-content" >
-                <table>
-                    <tr><th rowspan="4" class="imageplaceholder"><img class="photo_u" src="{{ url_for('static', filename='user_images/default/default.png') }}" width="150px" height="150px"><span></span></th></tr>
-                    <tr>
-                        <td>Vardas: {{ user.first_name}}</td>
-                        <td>Elektroninis paštas: {{ user.email }} </a></br></td>
-                    </tr>
-                    <tr>
-                        <td>Pavardė: {{ user.last_name }}</td>
-                        <td>Telefono numeris: {{ user.phone }}</td>
-                    </tr>
-                    <tr>
-                        <td>Asmens kodas: {{ user.personal_code }}</td>
-                    </tr>
-                </table>
+    <div class="card overflow-hidden" style="width:1078px;margin:0 auto;float:none;margin-bottom:30px;border-radius:10px;box-shadow: 0px 0px 5px 5px grey; padding-top: 50px;">
+        <div class="col-md-9" style="text-align:left; width: 100%;">
+            <div class="tab-content" style="width: 1078px;">
+                <div class="column user-column1">
+					<img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" class="user-image">
+				</div>
+				<div class="column user-column2">
+					<p class="user-info">Vardas: {{ user.first_name}}</p>
+					<p class="user-info">Pavardė: {{ user.last_name }}</p>
+					<p class="user-info">Pareigos: {{ user.position }}</p>
+				</div>
+				<div class="column user-column3">
+					<p class="user-info">Elektroninis paštas: {{ user.email }}</p>
+					<p class="user-info">Telefono numeris: {{ user.phone }}</p>
+                    <p class="user-info">Gydytojo ID: <a class="user-smalltext">{{ user.unique_id }}</a></p>
+				</div>
             </div>
         </div>
     </div>
 
-		
+
     <div class="container light-style flex-grow-1 container-p-y">
-        <div class="card overflow-hidden" style="border-style:solid;border-width: thick;border-color:black;border-radius:10px;box-shadow: 0px 0px 15px 15px grey">
+        <div class="card overflow-hidden" style="border-radius:10px;box-shadow: 0px 0px 5px 5px grey">
             <div class="row no-gutters row-bordered row-border-light">
-                <div class="col-md-3 pt-0" style="border-right:5px solid black;;border-width: thick;">
+                <div class="col-md-3 pt-0" style="border-right: 2px solid lightgrey;">
                     <div class="list-group list-group-flush account-settings-links">
                     <a style="font-size:24px" class="list-group-item" label="#account-general"> <b> Nustatymai </b></a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Redaguoti duomenis</a>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-image">Keisti nuotrauką</a>
                     <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Keisti slaptažodį</a>
                     </div>
                 </div>
@@ -111,25 +116,33 @@
                             <div class="form-group">
                                 <p class="form-block login-text">El. paštas:<br> {{ changedata.email(class_='input-box', size='30', value=user.email) }}</p>
                             </div>
-                            
+
                             <div class="form-group">
                                 <p class="form-block login-text">Telefonas:<br> {{ changedata.phone(class_='input-box', size='30', value=user.phone) }}</p>
                             </div>
-                            {% for field, errors in changedata.errors.items() %}
-                                {{ changedata[field].label }}: {{ ', '.join(errors) }}
-                            {% endfor %}
-                            
                             <div class="text-right mt-3">
                                 <input class="button button-sm login-button" type="submit" name="atnaujintiduomenis" value="Atnaujinti">
                             </div>
                         </form>
                     </div>
-                </div>
+                    </div>
+                    <div class="tab-pane fade" id="account-change-image">
+                        <div class="card-body pb-2">
+                            <form action="{{ url_for('account') }}" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <p class="form-block login-text">Įkelti nuotrauką (.png):<br>{{ changeimage.image() }}</p>
+                                </div>
+                                <div class="text-right mt-3">
+                                    <input class="button button-sm login-button" type="submit" name="atnaujintinuotrauka" value="Atnaujinti">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    </div>
+</div>
 </div>
 
 	<footer class="site-footer">
@@ -153,7 +166,7 @@
                         </li>
                     </ul>
                     <ul class="footer-social-links list-reset">
-                       
+
                     </ul>
                     <div class="footer-copyright">&copy; 2022 KTU ligoninė, visos teisės saugomos.</div>
                 </div>

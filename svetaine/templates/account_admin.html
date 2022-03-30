@@ -34,9 +34,9 @@
                         </h1>
                     </div>
                     <ul class="header-links list-reset m-0">
-						<li><a href="#">Vizitai</a></li>
-						<li><a href="{{ url_for('patient_history') }}">Ligos istorija</a></li>
-						<li><a href="#">Paslaugos</a></li>
+						<li><a href="#">Naujienos</a></li>
+						<li><a href="#">Naudotojai</a></li>
+						<li><a href="#">Sistema</a></li>
 					</ul>
                     <div class="navbar_right">
                         <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
@@ -63,12 +63,10 @@
 				<div class="column user-column2">
 					<p class="user-info">Vardas: {{ user.first_name}}</p>
 					<p class="user-info">Pavardė: {{ user.last_name }}</p>
-					<p class="user-info">Asmens kodas: {{ user.personal_code }}</p>
 				</div>
 				<div class="column user-column3">
 					<p class="user-info">Elektroninis paštas: {{ user.email }}</p>
 					<p class="user-info">Telefono numeris: {{ user.phone }}</p>
-                    <p class="user-info">Paciento ID: <a class="user-smalltext">{{ user.unique_id }}</a></p>
 				</div>
             </div>
         </div>

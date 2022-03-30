@@ -173,7 +173,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 	100% {
 		background-color: #0c939e;
 		color: white;
-		border-radius: 5px;
+		border-radius: 2px;
 	}
 }
   
@@ -228,8 +228,10 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 .user-image {
 	margin-left: auto;
 	margin-right: auto;
-	width: 50%;
 	border-radius: 50%;
+	width: 50%;
+	max-width: 250px;
+	
 }
 
 .user-smalltext {
