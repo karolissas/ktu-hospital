@@ -50,43 +50,22 @@
 
     <div class="card overflow-hidden" style="width:1078px;margin:0 auto;float:none;margin-bottom:30px;border-style:solid;border-width: thick;border-color:black;border-radius:10px;box-shadow: 0px 0px 15px 15px grey; padding-top: 50px;">
         <div class="col-md-9" style="text-align:left;">
-            {% if user.position == 'doctor' %}
-                <div class="tab-content" >
-                    <table>
-                        <tr><th rowspan="4" class="imageplaceholder"><img class="photo_u" src="{{ user.image_url }}" width="150px" height="150px"><span></span></th></tr>
-                        <tr>
-                            <td>Vardas: {{ user.first_name}}</td>
-                            <td>Elektroninis paštas: {{ user.email }} </a></br></td>
-                        </tr>
-                        <tr>
-                            <td>Pavardė: {{ user.last_name }}</td>
-                            <td>Telefono numeris: {{ user.phone }}</td>
-                        </tr>
-                        <tr>
-                            <td>Asmens kodas: {{ user.personal_code }}</td>
-                        </tr>
-                    </table>
-                </div>
-                {% else %}
-
-                <div class="tab-content" >
-                    <table>
-                        <tr>
-                            <td>Vardas: {{ user.first_name }}</td>
-                            <td>Elektroninis paštas: {{ user.email }} </a></br></td>
-                        </tr>
-                        <tr>
-                            <td>Pavardė: {{ user.last_name }}</td>
-                            <td>Telefono numeris: {{ user.phone }}</td>
-                        </tr>
-                        <tr>
-                            <td>Asmens kodas: {{ user.personal_code }}</td>
-                            <td>Paciento ID: {{ user.unique_id }}</td>
-                        </tr>
-                    </table>
-                </div>
-            {% endif %}
-           
+            <div class="tab-content" >
+                <table>
+                    <tr><th rowspan="4" class="imageplaceholder"><img class="photo_u" src="{{ url_for('static', filename='user_images/default/default.png') }}" width="150px" height="150px"><span></span></th></tr>
+                    <tr>
+                        <td>Vardas: {{ user.first_name}}</td>
+                        <td>Elektroninis paštas: {{ user.email }} </a></br></td>
+                    </tr>
+                    <tr>
+                        <td>Pavardė: {{ user.last_name }}</td>
+                        <td>Telefono numeris: {{ user.phone }}</td>
+                    </tr>
+                    <tr>
+                        <td>Asmens kodas: {{ user.personal_code }}</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 

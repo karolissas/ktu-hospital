@@ -48,6 +48,10 @@ class ChangePass(FlaskForm):
     password = PasswordField('Senas slaptažodis', validators=[Length(min=8, max=50)])
     new_password = PasswordField('Naujas slaptažodis', validators=[Length(min=8, max=50)])
     repeat_password = PasswordField('Pakartokite naują slaptažodį', validators=[Length(min=8, max=50)])
+    # -----------------------------------------------------------------------------------------------------
+# -- Nuotraukos keitimo forma
+class ChangeImage(FlaskForm):
+    image = FileField(u'Nuotrauka')
 # -----------------------------------------------------------------------------------------------------
 # -- Registracijos forma
 class RegistrationForm(FlaskForm):
@@ -169,6 +173,7 @@ def account():
     user = User.query.filter_by(unique_id = current_user.unique_id).first()
     changepass = ChangePass()
     changedata = ChangeData()
+    changeimage = ChangeImage()
     
     # Asmeninių duomenų keitimo forma
     message = ''
@@ -180,7 +185,7 @@ def account():
         db.session.commit()
         msg_color = 'lightgreen'
         message = 'Duomenys atnaujinti.'
-        return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
+        return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
     
     # Slaptažodžio keitimo forma
     if request.method == 'POST' and changepass.validate_on_submit() and request.form['atnaujintislaptazodi']:
@@ -193,16 +198,16 @@ def account():
                 db.session.commit()
                 msg_color = 'lightgreen'
                 message = 'Slaptažodis pakeistas.'
-                return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
+                return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
             else:
                 msg_color = 'darkred'
                 message = 'Naujas slaptažodis nesutampa.'
-                return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
+                return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
         else:
             msg_color = 'darkred'
             message = 'Senas slaptažodis įvestas neteisingai.'
-            return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, message = message, msg_color = msg_color)
-    return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata)
+            return render_template('account.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
+    return render_template('account_patient.html', user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage)
 
 if __name__ == "__main__":
     app.run(debug = True)
