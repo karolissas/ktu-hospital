@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>KTU ligonine</title>
     <link href="https://fonts.googleapis.com/css?family=PT+Serif:700" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/register/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/meet/style.css') }}">
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
 </head>
 <body class="is-boxed has-animations">
@@ -21,7 +21,7 @@
                                     <title>KTU ligonine</title>
                                     <defs>
 										<div id="header">
-										    <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt=""></a>
+                                            <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt=""></a>
                                         </div>
                                     </defs>
                                     <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd"/>
@@ -29,6 +29,11 @@
                             </a>
                         </h1>
                     </div>
+                    <ul class="header-links list-reset m-0" style="padding-top: 70px">
+                        <li><a href="{{ url_for('home') }}">Pradinis</a></li>
+						<li><a href="#">Kas yra E.SUSITIKIMAS?</a></li>
+						<li><a href="#">Kaip naudotis?</a></li>
+					</ul>
 					<ul class="header-links list-reset m-0" style="padding-top: 70px">
 						<li><a>&emsp;</li>
                         <li>
@@ -41,25 +46,29 @@
 
         <main>
             <section class="hero text-light text-center">
-                <div class="container-reg">
-                    <p class="reg-header">Registracija</p>
-                    <p class="msg" style="color: {{ msg_color }};"> {{ message }} </p>
-                    <form action="{{ url_for('register') }}" method="POST">
-                        {{ form.hidden_tag() }}
-                        <p class="form-block reg-text">{{ form.first_name(class_='input-box', size='30', placeholder='Vardas') }}</p>
-				        <p class="form-block reg-text">{{ form.last_name(class_='input-box', size='30', placeholder='Pavardė') }}</p>
-                        <p class="form-block reg-text">{{ form.personal_code(class_='input-box', size='30', placeholder='Asmens kodas') }}</p>
-                        <p class="form-block reg-text">{{ form.phone(class_='input-box', size='30', placeholder='Telefono numeris') }}</p>
-                        <p class="form-block reg-text">{{ form.email(class_='input-box', size='30', placeholder='El. pašto adresas') }}</p>
-                        <p class="form-block reg-text">{{ form.password(class_='input-box', size='30', placeholder='Slaptažodis (min. 8 simboliai)') }}</p>
-        
-                        <input class="button reg-button" type="submit" name="registruotis" value="Registruotis">
-                        {% for field, errors in form.errors.items() %}
-                            {{ form[field].label }}: {{ ', '.join(errors) }}
-                        {% endfor %}
-                    </form>
-                    <p class="reg-text-sub"><a href="{{ url_for('login') }}">Turi paskyrą? Prisijunk čia</a></a></p>
+                <div class="container-sm">
+                    <div class="hero-inner">
+                        <h1 class="hero-title h2-mobile mt-0 is-revealing">Prisijunkite iš namų!</h1>
+                        <p class="hero-paragraph is-revealing">KTU ligoninė suteikia galimybę konsultuotis su gydytoju iš namų.</p>
+                        <div class="hero-media">
+                            <img src="{{ url_for('static', filename='images/meet/jitsi.png') }}">
+                        </div>
+                    </div>
+                </div>
 				</div>
+            </section>
+
+            <section class="features section text-center">
+                <div class="container fix-margin">
+                    <div class="features-inner section-inner has-top-divider">
+                        <h2 class="section-title mt-0">Įveskite paciento kodą</h2>
+                        <form action="{{ url_for('meet') }}" method="POST" style="padding-bottom: 50px;">
+                            <p style="padding-bottom: 20px;">https://meet.ktuligonine.lt/{{ form.patient_id(style='border-radius:15px;', placeholder='paciento-id') }}</p>
+                            <input class="button button-secondary" type="submit" value="Prisijungti">
+                            <p style="font-family: sans-serif; font-size: 12px; color: {{msg_color}}; font-weight: bold;">{{ message }}</p>
+                        </form>
+                    </div>
+                </div>
             </section>
 
         </main>
@@ -91,6 +100,6 @@
             </div>
         </footer>
     </div>
-    <script src="{{ url_for('static', filename='scripts/register/main.min.js') }}/"></script>
+    <script src="{{ url_for('static', filename='scripts/meet/main.min.js') }}/"></script>
 </body>
 </html>

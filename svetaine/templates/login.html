@@ -22,7 +22,8 @@
                                     <title>KTU ligonine</title>
                                     <defs>
 										<div id="header">
-										<img class="main-logo" src="{{ url_for('static', filename='logo.png') }}" alt="">
+                                            <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt=""></a>
+                                        </div>
                                     </defs>
                                     <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd"/>
                                 </svg>
@@ -60,6 +61,12 @@
         <footer class="site-footer">
             <div class="container">
                 <div class="site-footer-inner">
+                    <div class="brand footer-brand">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='logo.png') }}" alt="" width="50" height="50" viewBox="0 0 32 32">
+                            </img>
+                        </a>
+                    </div>
                     <ul class="footer-links list-reset">
                         <li>
                             <a href="{{ url_for('home') }}">Pradinis</a>
@@ -71,7 +78,9 @@
                             <a href="{{ url_for('contacts') }}">Kontaktai</a>
                         </li>
                     </ul>
-                    <div class="footer-copyright" style="font-family: Sans-serif">&copy; 2022 KTU ligoninė, visos teisės saugomos.</div>
+                    <ul>
+                    </ul>
+                    <div class="footer-copyright">&copy; 2022 KTU ligoninė, visos teisės saugomos.</div>
                 </div>
             </div>
         </footer>

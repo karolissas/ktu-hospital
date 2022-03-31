@@ -128,19 +128,28 @@ img {
   margin-right: auto;
   width: 50%;
 }
-.circular--square { border-radius: 50%; }
+
+.circular--square {
+	border-radius: 50%;
+}
 
 .container1 {
 	white-space: pre-line;
 }
+
 .container2 {
 	white-space: pre-line;
 }
+
 .container3 {
 	white-space: pre-line;
 }
 
 .main-logo {
 	height: 110px;
-	width: 200px;
+	max-width: 200px;
+}
+
+.menu-pos {
+	padding-top: 70px;
 }

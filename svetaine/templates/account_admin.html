@@ -25,7 +25,7 @@
                                     <title>KTU ligonine</title>
                                     <defs>
 										<div id="header" style="min-width:200px;">
-										<img class="main-logo" src="{{ url_for('static', filename='logo.png') }}" alt="">
+                                            <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt=""></a>
 										</div>
                                     </defs>
                                     <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd"/>
@@ -33,12 +33,12 @@
                             </a>
                         </h1>
                     </div>
-                    <ul class="header-links list-reset m-0">
+                    <ul class="header-links list-reset m-0 menu-pos">
 						<li><a href="#">Naujienos</a></li>
 						<li><a href="#">Naudotojai</a></li>
 						<li><a href="#">Sistema</a></li>
 					</ul>
-                    <div class="navbar_right">
+                    <div class="navbar_right menu-pos">
                         <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
                         <div class="dropdown">
                             <button class="dropbtn"><i class="fas fa-chevron-down"></i>
@@ -54,7 +54,7 @@
             </div>
         </header>
 
-    <div class="card overflow-hidden" style="width:1078px;margin:0 auto;float:none;margin-bottom:30px;border-radius:10px;box-shadow: 0px 0px 5px 5px grey; padding-top: 50px;">
+    <div class="card overflow-hidden" style="width:1078px;margin:0 auto;float:none;margin-bottom:30px;border-radius:10px;box-shadow: 0px 0px 5px 5px grey; padding-top: 50px; margin-top: 30px;">
         <div class="col-md-9" style="text-align:left; width: 100%;">
             <div class="tab-content" style="width: 1078px;">
                 <div class="column user-column1">
@@ -151,8 +151,7 @@
                             <a href="{{ url_for('contacts') }}">Kontaktai</a>
                         </li>
                     </ul>
-                    <ul class="footer-social-links list-reset">
-
+                    <ul>
                     </ul>
                     <div class="footer-copyright">&copy; 2022 KTU ligoninė, visos teisės saugomos.</div>
                 </div>

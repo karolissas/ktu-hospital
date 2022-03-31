@@ -21,7 +21,7 @@
                                     <title>KTU ligonine</title>
                                     <defs>
 										<div id="header">
-										<img src="{{ url_for('static', filename='logo.png') }}/" alt="">
+                                            <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt=""></a>
 										</div>
                                     </defs>
                                     <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd"/>
@@ -29,12 +29,13 @@
                             </a>
                         </h1>
                     </div>
-                    <ul class="header-links list-reset m-0">
+                    <ul class="header-links list-reset m-0 menu-pos" style="padding-left: 40px;">
 						<li><a href="{{ url_for('home') }}">Pradinis</a></li>
 						<li><a href="{{ url_for('info') }}">Informacija</a></li>
 						<li><a href="{{ url_for('contacts') }}">Kontaktai</a></li>
+                        <li><a href="{{ url_for('meet') }}">E.Susitikimas</a></li>
 					</ul>
-					<ul class="header-links list-reset m-0">
+					<ul class="header-links list-reset m-0 menu-pos">
 						<li><a>&emsp;</li>
                         <li>
                             <a class="button button-sm button-shadow" href="{{ url_for('login') }}">Prisijungti</a>

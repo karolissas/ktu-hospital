@@ -75,7 +75,7 @@ body{
 
 .main-logo {
 	height: 110px;
-	width: 200px;
+	max-width: 200px;
 }
 
 .section-header {
@@ -109,6 +109,13 @@ body{
 .card {
     background-clip: padding-box;
     box-shadow: 0 1px 4px rgba(24,28,33,0.012);
+}
+
+.tabledesc th {
+	font-family: sans-serif;
+	font-size: 20px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .tabledesc td {

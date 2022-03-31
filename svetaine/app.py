@@ -61,6 +61,10 @@ class RegistrationForm(FlaskForm):
     phone = StringField('Telefono numeris', validators=[InputRequired(), Length(min=5)])
     password = PasswordField('Slaptažodis', validators=[InputRequired(), Length(min=8, max=50)])
 # -----------------------------------------------------------------------------------------------------
+# -- Susitikimo prisijungimo forma
+class JoinMeet(FlaskForm):
+    patient_id = StringField('Paciento ID', validators=[InputRequired()])
+# -----------------------------------------------------------------------------------------------------
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
 # Vartotojų sesijų paleidimas
 @user_login.user_loader
@@ -177,7 +181,7 @@ def account():
     changeimage = ChangeImage()
     message = ''
     msg_color = 'white'
-    
+
     # Tikrinama naudotojo rolė
     if user.position == 'Pacientas':
         load = 'account_patient.html'
@@ -194,7 +198,7 @@ def account():
         msg_color = 'lightgreen'
         message = 'Duomenys atnaujinti.'
         return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
-    
+
     # Nuotraukos keitimo forma
     if request.method == 'POST' and changeimage.validate_on_submit() and user.position != 'Pacientas' and user.position != 'Administratorius':
         file = changeimage.image.data
@@ -220,7 +224,7 @@ def account():
     # Slaptažodžio keitimo forma
     if request.method == 'POST' and changepass.validate_on_submit():
         if check_password_hash(current_user.password, changepass.password.data):
-            
+
             if changepass.new_password.data == changepass.repeat_password.data:
 
                 passhash = generate_password_hash(changepass.new_password.data, method='sha256')
@@ -243,6 +247,21 @@ def account():
 @app.route('/ligu-istorija')
 def patient_history():
     return render_template('patient_history.html', user = current_user)
+
+@app.route('/e-susitikimas', methods=['GET', 'POST'])
+def meet():
+    form = JoinMeet()
+    message = ''
+    msg_color = ''
+    if request.method == 'POST' and form.validate_on_submit():
+        if form.patient_id.data:
+            return redirect('https://meet.ktuligonine.lt/' + form.patient_id.data)
+        else:
+            message = 'Įveskite paciento ID'
+            msg_color = 'darkred'
+            return render_template('meet.html', user = current_user, form = form, message = message, msg_color = msg_color)
+    else:
+        return render_template('meet.html', user = current_user, form = form, message = message, msg_color = msg_color)
 
 if __name__ == "__main__":
     app.run(debug = True)

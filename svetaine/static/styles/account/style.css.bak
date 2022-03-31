@@ -187,7 +187,11 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 
 .main-logo {
 	height: 110px;
-	width: 200px;
+	max-width: 200px;
+}
+
+.menu-pos {
+	padding-top: 70px;
 }
 
 .input-box {
@@ -231,7 +235,7 @@ html:not(.dark-style) .account-settings-links .list-group-item.active {
 	border-radius: 50%;
 	width: 50%;
 	max-width: 250px;
-	
+	height: auto;
 }
 
 .user-smalltext {

@@ -8,7 +8,7 @@ img {
 
 .main-logo {
 	height: 110px;
-	width: 200px;
+	max-width: 200px;
 }
 
 .navi-manu {
@@ -38,7 +38,6 @@ img {
 }
 
 .container-reg{
-
 	background: linear-gradient(25deg, #06918B 0%, #117C99 100%);
 	max-width: 400px;
 	height: 570px;
