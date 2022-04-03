@@ -1,0 +1,18 @@
+sep=;
+Story Title;Estimate;Vote Started;Voting Duration;Avg Voting Time;Fastest;Slowest;
+Sukurti naudotojų paskyrų sąrašo administratoriui dizainą;1;4/3/2022 8:20:22 PM;00:00:08;00:00:05;Matas;Gvidas;
+Suprogramuoti naudotojų paskyrų sąrašą administratoriui;2;4/3/2022 8:20:12 PM;00:00:09;00:00:06;Karolis;Pijus;
+Padaryti pacientų sąrašo filtravimą pagal vardą ir pavardę;3;4/3/2022 8:19:09 PM;00:01:02;00:00:05;Tomas;Pijus;
+Suprogramuoti pacientų vizitų duomenų bazę;2;4/3/2022 8:18:59 PM;00:00:09;00:00:05;Tomas;Matas;
+Suprogramuoti pacientų ligos istorijos duomenų bazę;2;4/3/2022 8:18:49 PM;00:00:09;00:00:05;Tomas;Gvidas;
+Sukurti pacientų sąrašo puslapio dizainą;1;4/3/2022 8:18:35 PM;00:00:13;00:00:05;Gvidas;Pijus;
+Suprogramuoti pacientų sąrašo puslapį;2;4/3/2022 8:18:25 PM;00:00:08;00:00:04;Tomas;Karolis;
+Suprogramuoti paciento ligos istorijos lentelę;1;4/3/2022 8:18:15 PM;00:00:07;00:00:03;Karolis;Pijus;
+Suprogramuoti informacijos puslapio dizainą;1;4/3/2022 8:18:07 PM;00:00:06;00:00:04;Tomas;Pijus;
+Suprogramuoti kontaktų puslapio dizainą;2;4/3/2022 8:17:59 PM;00:00:06;00:00:03;Matas;Gvidas;
+Suprogramuoti paciento paslaugų puslapio dizainą;2;4/3/2022 8:17:46 PM;00:00:11;00:00:07;Tomas;Pijus;
+Suprogramuoti paciento vizitų puslapio dizainą;2;4/3/2022 8:17:10 PM;00:00:35;00:00:04;Gvidas;Pijus;
+Sukurti informacijos puslapio dizainą;1;4/3/2022 8:17:02 PM;00:00:06;00:00:03;Matas;Gvidas;
+Sukurti kontaktų puslapio dizainą;1;4/3/2022 8:16:54 PM;00:00:06;00:00:02;Gvidas;Tomas;
+Sukurti paciento paslaugų puslapio dizainą;1;4/3/2022 8:16:45 PM;00:00:06;00:00:02;Gvidas;Pijus;
+Sukurti paciento vizitų puslapio dizainą;1;4/3/2022 8:16:31 PM;00:00:12;00:00:07;Tomas;Matas;
