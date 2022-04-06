@@ -89,7 +89,30 @@ class User(db.Model, UserMixin):
 
     def get_id(self):
         return (self.unique_id)
+    
 # -----------------------------------------------------------------------------------------------------
+# -- Vizitų duomenų klasė
+class Visits(db.Model):
+    __tablename__ = 'user_visits'
+    visit_id = db.Column(db.Integer, primary_key = True, unique = True)
+    user_unique_id = db.Column(db.String(20))
+    doctor_unique_id = db.Column(db.String(20))
+    time = db.Column(db.String(16))
+    url_link = db.Column(db.String(100), unique = True)
+
+    def set_visits(self, user):
+        return db.query().filter_by(user_unique_id = user.get_id()).all()
+
+# -----------------------------------------------------------------------------------------------------
+# -- Vizitų duomenų klasė
+class PatientsHistory(db.Model):
+    __tablename__ = 'patients_history'
+    id = db.Column(db.Integer, primary_key = True, unique = True)
+    date = db.Column(db.String(16))
+    user_unique_id = db.Column(db.String(20))
+    prescription = db.Column(db.String(50))
+    comments = db.Column(db.String(100))
+    diagnose = db.Column(db.String(30))
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @app.route("/")
@@ -176,6 +199,9 @@ def logout():
 def account():
     # Kintamieji
     user = User.query.filter_by(unique_id = current_user.unique_id).first()
+    vizitas = Visits.query.filter_by(user_unique_id = current_user.unique_id).first()
+    print(user.unique_id)
+    print(vizitas.time)
     changepass = ChangePass()
     changedata = ChangeData()
     changeimage = ChangeImage()
@@ -241,7 +267,7 @@ def account():
             msg_color = 'darkred'
             message = 'Senas slaptažodis įvestas neteisingai.'
             return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
-    return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage)
+    return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, vizitass = vizitas)
 
 @login_required
 @app.route('/ligu-istorija')
