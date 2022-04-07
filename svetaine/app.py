@@ -114,7 +114,12 @@ class PatientsHistory(db.Model):
     comments = db.Column(db.String(100))
     diagnose = db.Column(db.String(30))
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
+#papildomi metodai duomenims gauti
+def getPatientsHistoryList():
+    return PatientsHistory.query.filter_by(user_unique_id = current_user.unique_id).all()
 
+
+# /////////////////////////////////////////////////////////////////////////////////////////////////////
 @app.route("/")
 def home():
     return render_template('index.html')
@@ -194,14 +199,14 @@ def logout():
     msg_color = 'lightgreen'
     return render_template('login.html', form = form, message = message, msg_color = msg_color)
 
+
+
 @login_required
 @app.route("/paskyra", methods=['GET','POST'])
 def account():
     # Kintamieji
     user = User.query.filter_by(unique_id = current_user.unique_id).first()
     vizitas = Visits.query.filter_by(user_unique_id = current_user.unique_id).first()
-    print(user.unique_id)
-    print(vizitas.time)
     changepass = ChangePass()
     changedata = ChangeData()
     changeimage = ChangeImage()
@@ -267,12 +272,12 @@ def account():
             msg_color = 'darkred'
             message = 'Senas slaptažodis įvestas neteisingai.'
             return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
-    return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, vizitass = vizitas)
+    return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage)
 
 @login_required
 @app.route('/ligu-istorija')
 def patient_history():
-    return render_template('patient_history.html', user = current_user)
+    return render_template('patient_history.html', user = current_user, visits = getPatientsHistoryList(), len = len(getPatientsHistoryList()))
 
 @app.route('/e-susitikimas', methods=['GET', 'POST'])
 def meet():
