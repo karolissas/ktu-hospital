@@ -95,7 +95,6 @@ class User(db.Model, UserMixin):
 
     def get_id(self):
         return (self.unique_id)
-    
 # -----------------------------------------------------------------------------------------------------
 # -- Vizitų duomenų klasė
 class Visits(db.Model):
@@ -110,9 +109,6 @@ class Visits(db.Model):
 
     def get_id(self):
         return (self.doctor_unique_id)
-
-    
-
 # -----------------------------------------------------------------------------------------------------
 # -- Vizitų duomenų klasė
 class PatientsHistory(db.Model):
@@ -171,8 +167,6 @@ def getAllpositions():
         tulpe = (x[0], x[0])
         newarr.append(tulpe)
     return list(dict.fromkeys(newarr))
-
-
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
 @app.route("/")
@@ -257,8 +251,6 @@ def logout():
     msg_color = 'lightgreen'
     return render_template('login.html', form = form, message = message, msg_color = msg_color)
 
-
-
 @login_required
 @app.route("/paskyra", methods=['GET','POST'])
 def account():
@@ -341,7 +333,6 @@ def patient_history():
 @app.route('/paslaugos')
 def patient_services():
     return render_template('patientServices.html', user = current_user)
-
 
 @login_required
 @app.route('/vizitai', methods=['GET', 'POST'])
