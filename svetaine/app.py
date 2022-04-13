@@ -356,6 +356,15 @@ def visits_register():
     visit, len2 = getPatientsVisitsList()
     return render_template('visits-register.html', user = current_user, visits = visit, len = len2)
 
+@login_required
+@app.route('/vartotojai')
+def user_list_admin():
+    if(current_user.position == "Administratorius"):
+        userlist = User.query.all()
+        return render_template('user-list.html', user = current_user, visits = userlist, len = len(userlist))
+    else:
+        return render_template('index.html')
+
 @app.route('/e-susitikimas', methods=['GET', 'POST'])
 def meet():
     form = JoinMeet()
