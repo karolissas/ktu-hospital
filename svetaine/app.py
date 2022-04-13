@@ -185,7 +185,10 @@ def info():
 
 @app.route("/kontaktai")
 def contacts():
-    return render_template('contacts.html')
+    if(current_user.is_authenticated):
+        return render_template('contacts.html', session = current_user)
+    else:
+        return render_template('contacts.html')
 
 @app.route("/prisijungimas", methods=['GET', 'POST'])
 def login():
