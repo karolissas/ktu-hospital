@@ -4,7 +4,7 @@ from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import StringField, PasswordField, DateField, FileField, IntegerField
+from wtforms import StringField, PasswordField, DateField, FileField, IntegerField, SelectField
 from wtforms.validators import InputRequired, Email, Length
 from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -65,6 +65,12 @@ class RegistrationForm(FlaskForm):
 class JoinMeet(FlaskForm):
     patient_id = StringField('Paciento ID', validators=[InputRequired()])
 # -----------------------------------------------------------------------------------------------------
+#-- filtravimo forma vizitams
+class FilterVisits(FlaskForm):
+    position = SelectField("test")
+    first_lastname = StringField('Vardas Pavarde')
+    visit_date = DateField('0000-00-00')
+# -----------------------------------------------------------------------------------------------------
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
 # Vartotojų sesijų paleidimas
 @user_login.user_loader
@@ -99,9 +105,13 @@ class Visits(db.Model):
     doctor_unique_id = db.Column(db.String(20))
     time = db.Column(db.String(16))
     url_link = db.Column(db.String(100), unique = True)
+    doctor_name = ""
+    doctor_position = ""
 
-    def set_visits(self, user):
-        return db.query().filter_by(user_unique_id = user.get_id()).all()
+    def get_id(self):
+        return (self.doctor_unique_id)
+
+    
 
 # -----------------------------------------------------------------------------------------------------
 # -- Vizitų duomenų klasė
@@ -117,6 +127,51 @@ class PatientsHistory(db.Model):
 #papildomi metodai duomenims gauti
 def getPatientsHistoryList():
     return PatientsHistory.query.filter_by(user_unique_id = current_user.unique_id).all()
+
+def getPatientsVisitsList1(name, date, position):
+    doctor_list = []
+    doctor = Visits.query.filter_by(user_unique_id = current_user.unique_id).all()
+    value1 = 0
+    value2 = 0
+    value3 = 0
+    if(name == ""):
+        value1 = 1
+    if(date == None):
+        value2 = 1
+    if(position == "0"):
+        value3 = 1
+    for x in doctor:
+        a = db.session.query(User).filter_by(unique_id = x.get_id()).first()
+        x.doctordoctor_name = a.first_name + " " + a.last_name
+        x.doctor_position = a.position
+        if(bool(value1) and bool(value2) and bool(value3)):
+            doctor_list.append(x)
+        else:
+            if(bool(value1) or x.doctordoctor_name == name):
+                if(bool(value2) or x.time[0:10] == date.strftime("%Y-%m-%d")):
+                    if(bool(value3) or x.doctor_position == position):
+                        doctor_list.append(x)
+    return doctor_list, len(doctor_list)
+
+def getPatientsVisitsList():
+    doctor_list = []
+    doctor = Visits.query.filter_by(user_unique_id = current_user.unique_id).all()
+    for x in doctor:
+        a = db.session.query(User).filter_by(unique_id = x.get_id()).first()
+        x.doctordoctor_name = a.first_name + " " + a.last_name
+        x.doctor_position = a.position
+        doctor_list.append(x)
+    return doctor_list, len(doctor_list)
+
+def getAllpositions():
+    tulpe = (0, "Specialybe")
+    newarr = [tulpe]
+    positions  = db.session.query(User.position).filter(User.position.isnot("Pacientas"), User.position.isnot("Administratorius")).all()
+    for x in positions:
+        tulpe = (x[0], x[0])
+        newarr.append(tulpe)
+    return list(dict.fromkeys(newarr))
+
 
 
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -278,6 +333,25 @@ def account():
 @app.route('/ligu-istorija')
 def patient_history():
     return render_template('patient_history.html', user = current_user, visits = getPatientsHistoryList(), len = len(getPatientsHistoryList()))
+
+@login_required
+@app.route('/vizitai', methods=['GET', 'POST'])
+def visits():
+    FilterVisits.position = SelectField("test",choices = getAllpositions())
+    form = FilterVisits()
+    if request.method == 'POST':
+        
+        visit, len2 = getPatientsVisitsList1(form.first_lastname.data, form.visit_date.data, form.position.data)
+        return render_template('visits.html', user = current_user, form = form, visits = visit , len = len2)
+    else:
+        visit, len2 = getPatientsVisitsList()
+        return render_template('visits.html', user = current_user, form = form, visits = visit, len = len2)
+
+@login_required
+@app.route('/registracija-vizitui')
+def visits_register():
+    visit, len2 = getPatientsVisitsList()
+    return render_template('visits-register.html', user = current_user, visits = visit, len = len2)
 
 @app.route('/e-susitikimas', methods=['GET', 'POST'])
 def meet():

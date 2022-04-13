@@ -33,10 +33,21 @@
                         </h1>
                     </div>
                     <ul class="header-links list-reset m-0">
-						<li><a href="#">Vizitai</a></li>
-						<li><a href="{{ url_for('patient_history') }}">Ligos istorija</a></li>
-						<li><a href="#">Paslaugos</a></li>
-					</ul>
+
+                        <div class="dropdown">
+                            <button class="dropbtn">
+                                <i class="fas fa-chevron-down"></i>
+                                <li><a href="{{ url_for('visits') }}">Vizitai </a></li>
+                            </button>
+                            <div class="dropdown-content a">
+                                <a href="{{ url_for('visits_register') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036; color:black;">Registruotis į vizitą</a>
+                                <a href="{{ url_for('visits') }}" style="color:black;">Mano vizitai</a>
+                            </div>
+                        </div>
+
+                        <li><a href="/ligu-istorija">Ligos istorija</a></li>
+                        <li><a href="#">Paslaugos</a></li>
+                    </ul>
 					<div class="navbar_right">
                         <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
                         <div class="dropdown">
