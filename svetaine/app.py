@@ -338,6 +338,12 @@ def patient_history():
     return render_template('patient_history.html', user = current_user, visits = getPatientsHistoryList(), len = len(getPatientsHistoryList()))
 
 @login_required
+@app.route('/paslaugos')
+def patient_services():
+    return render_template('patientServices.html', user = current_user)
+
+
+@login_required
 @app.route('/vizitai', methods=['GET', 'POST'])
 def visits():
     FilterVisits.position = SelectField("test",choices = getAllpositions())

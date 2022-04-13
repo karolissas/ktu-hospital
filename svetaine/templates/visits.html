@@ -45,8 +45,8 @@
                             </div>
                         </div>
 
-                        <li><a href="/ligu-istorija">Ligos istorija</a></li>
-                        <li><a href="#">Paslaugos</a></li>
+                        <li><a href="{{ url_for('patient_history') }}">Ligos istorija</a></li>
+                        <li><a href="{{ url_for('patient_services') }}">Paslaugos</a></li>
                     </ul>
                     <div class="navbar_right">
                         <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
