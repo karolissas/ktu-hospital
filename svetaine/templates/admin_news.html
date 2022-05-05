@@ -1,0 +1,106 @@
+﻿<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KTU ligonine</title>
+    <link href="https://fonts.googleapis.com/css?family=Sans-serif:400,400i|PT+Serif:700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_news/style.css') }}">
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+</head>
+<body class="is-boxed has-animations">
+    <div class="body-wrap boxed-container">
+        <header class="site-header">
+            <div class="container">
+                <div class="site-header-inner">
+                    <div class="brand header-brand">
+                        <h1 class="m-0">
+                            <a href="#">
+                                <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                    <title>KTU ligonine</title>
+                                    <defs>
+                                        <div id="header" style="min-width:200px;">
+                                            <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
+                                        </div>
+                                    </defs>
+                                    <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </h1>
+                    </div>
+                    <ul class="header-links list-reset m-0 menu-pos">
+						<li><a href="{{ url_for('admin_news') }}">Naujienos</a></li>
+						<li><a href="{{ url_for('user_list_admin') }}">Naudotojai</a></li>
+						<li><a href="{{ url_for('system_status') }}">Sistema</a></li>
+					</ul>
+					<div class="navbar_right menu-pos">
+                        <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fas fa-chevron-down"></i>
+                                <span class="username" style="padding-left: 50px;">{{ user.first_name }} {{ user.last_name }} </span>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="{{ url_for('account') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036;">Nustatymai</a>
+                                <a href="{{ url_for('logout') }}">Atsijungti</a>
+                            </div>
+                        </div>
+                	</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="blog-section">
+                <div class="section-content blog">
+                    <div class="title">
+                        <h2 class="title" style="margin-bottom: 30px;">Naujienų puslapis</h2>
+                        <a style="text-decoration: none; font-family: sans-serif;" href="{{ url_for('admin_news_add') }}"><h1 class="button" style="margin-top: -50px; margin-bottom: 100px; font-family: sans-serif;">Pridėti naują</h1></a>
+                    </div>
+                    {% for news in allnews %}
+                    <div class="card1 card-news" style="border-radius:10px;box-shadow: 0px 0px 5px 5px grey;">
+                        <div style="position:absolute;left: 5%;padding-top: 10px;">
+                            {% if news.image_url %}
+                            <img src="{{ url_for('static', filename='news_images/' + news.image_url) }}" alt="news_pic" style="position: absolute; max-height: 80px; margin-left: -40px; margin-top: auto; margin-bottom: auto;">
+                            {% endif %}
+                            <p class="datetext" style="margin-left: 100px;">Paskelbimo data: {{ news.date }}</p>
+                            <h6 class="card-title" style="margin-top: -30px; margin-left: 100px; width: 500px; overflow: hidden; line-height: 25px;">{{ news.title }}</h6>
+                        </div>
+                        <div style="position:absolute;right:200px;padding-top: 20px;"><a href="{{ url_for('admin_news_edit', news_id=news.id) }}" class="button">Redaguoti</a></div>
+                        <div style="position:absolute;right:50px;padding-top: 20px;"><a href="{{ url_for('admin_news_delete', news_id=news.id) }}" class="button">Pašalinti</a></div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="site-footer-inner">
+                    <div class="brand footer-brand">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='logo.png') }}" alt="" width="50" height="50" viewBox="0 0 32 32">
+                        </a>
+                    </div>
+                    <ul class="footer-links list-reset">
+                        <li>
+                            <a href="{{ url_for('home') }}">Pradinis</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('info') }}">Informacija</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('contacts') }}">Kontaktai</a>
+                        </li>
+                    </ul>
+                    <ul></ul>
+                    <div class="footer-copyright">© 2022 KTU ligoninė, visos teisės saugomos.</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/main.min.js') }}"></script>
+</body>
+</html>

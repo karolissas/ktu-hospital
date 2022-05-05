@@ -29,12 +29,12 @@
                             </a>
                         </h1>
                     </div>
-                    <ul class="header-links list-reset m-0" style="padding-top: 70px">
+                    <ul class="header-links list-reset m-0 menu-pos text-font">
                         <li><a href="{{ url_for('home') }}">Pradinis</a></li>
 						<li><a href="#">Kas yra E.SUSITIKIMAS?</a></li>
 						<li><a href="#">Kaip naudotis?</a></li>
 					</ul>
-					<ul class="header-links list-reset m-0" style="padding-top: 70px">
+					<ul class="header-links list-reset m-0 menu-pos text-font">
 						<li><a>&emsp;</li>
                         <li>
                             <a class="button button-sm button-shadow" href="{{ url_for('home') }}">Grįžti į pradinį</a>
@@ -48,8 +48,8 @@
             <section class="hero text-light text-center">
                 <div class="container-sm">
                     <div class="hero-inner">
-                        <h1 class="hero-title h2-mobile mt-0 is-revealing">Prisijunkite iš namų!</h1>
-                        <p class="hero-paragraph is-revealing">KTU ligoninė suteikia galimybę konsultuotis su gydytoju iš namų.</p>
+                        <h1 class="hero-title h2-mobile mt-0 is-revealing text-font" style="text-transform: uppercase;">Prisijunkite iš namų!</h1>
+                        <p class="hero-paragraph is-revealing text-font">KTU ligoninė suteikia galimybę konsultuotis su gydytoju iš namų.</p>
                         <div class="hero-media">
                             <img src="{{ url_for('static', filename='images/meet/jitsi.png') }}">
                         </div>
@@ -100,6 +100,6 @@
             </div>
         </footer>
     </div>
-    <script src="{{ url_for('static', filename='scripts/meet/main.min.js') }}/"></script>
+    <script src="{{ url_for('static', filename='scripts/main.min.js') }}"></script>
 </body>
 </html>

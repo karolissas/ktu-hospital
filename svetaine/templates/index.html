@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>KTU ligonine</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,400i|PT+Serif:700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sans-serif:400,400i|PT+Serif:700" rel="stylesheet">
     <link href="{{ url_for('static', filename='styles/index/style.css') }}" type="text/css" rel="stylesheet">
     <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
 </head>
@@ -20,22 +20,35 @@
                                 <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
                                     <title>KTU ligonine</title>
                                     <defs>
-										<div id="header">
-                                            <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt=""></a>
+										</defs></svg></a><div id="header" style="min-width:200px;"><a href="#">
+                                            </a><a href="/"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
 										</div>
-                                    </defs>
-                                    <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd"/>
-                                </svg>
-                            </a>
-                        </h1>
+                                    
+                                    <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd">
+                        </path></h1>
                     </div>
-                    <ul class="header-links list-reset m-0 menu-pos" style="padding-left: 40px;">
+                    
+                    <ul class="header-links list-reset m-0 menu-pos">
 						<li><a href="{{ url_for('home') }}">Pradinis</a></li>
 						<li><a href="{{ url_for('info') }}">Informacija</a></li>
 						<li><a href="{{ url_for('contacts') }}">Kontaktai</a></li>
                         <li><a href="{{ url_for('meet') }}">E.Susitikimas</a></li>
 					</ul>
-					<ul class="header-links list-reset m-0 menu-pos">
+                    {% if session.is_authenticated %}
+					<div class="navbar_right menu-pos">
+                        <img src="{{ url_for('static', filename='user_images/' + session.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fas fa-chevron-down"></i>
+                                <span class="username" style="padding-left: 50px;">{{ session.first_name }} {{ session.last_name }} </span>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="{{ url_for('account') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036;">Nustatymai</a>
+                                <a href="{{ url_for('logout') }}">Atsijungti</a>
+                            </div>
+                        </div>
+                	</div>
+                    {% else %}
+                    <ul class="header-links list-reset m-0 menu-pos">
 						<li><a>&emsp;</li>
                         <li>
                             <a class="button button-sm button-shadow" href="{{ url_for('login') }}">Prisijungti</a>
@@ -44,6 +57,7 @@
                             <a href="{{ url_for('register') }}"> Registruotis</a>
                         </li>
                     </ul>
+                    {% endif %}
                 </div>
             </div>
         </header>
@@ -52,24 +66,25 @@
             <section class="hero text-light text-center">
                 <div class="container-sm">
                     <div class="hero-inner">
-                        <h1 class="hero-title h2-mobile mt-0 is-revealing" style="font-family: sans-serif;">KTU ligoninės svetainės pagrindinis puslapis</h1>
-						<p class="hero-paragraph is-revealing" style="font-family: sans-serif;">Išsamus simptomų ir gydymo vadovas, įskaitant tai, ką daryti ir kada kreiptis pagalbos.</p>
-                        <div class="hero-media">
+                        <h1 class="hero-title main-title h2-mobile mt-0 is-revealing">KTU ligoninė</h1>
+                        <hr style="width: 600px;">
+						<p class="hero-paragraph main-subtext is-revealing center">Jūsų sveikata ir gyvenimo džiaugsmas - mūsų didžiausi prioritetai.</p>
+                        <div class="hero-media" style="margin-top: 200px;">
 							<div class="slide-container">
-							<span id="slider-image-1"></span>
-							<span id="slider-image-2"></span>
-							<span id="slider-image-3"></span>
-                            
-                                <div class="image-container">
-                                    <img src="{{ url_for('static', filename='images/index/1140-hospital-room.jpg') }}/" class="slider-image" >
-                                    <img src="{{ url_for('static', filename='images/index/1140x655-coronavirus.jpg') }}/" class="slider-image" >
-                                    <img src="{{ url_for('static', filename='images/index/1140x655-nursing.jpg') }}/" class="slider-image" >
+                                <span id="slider-image-1"></span>
+                                <span id="slider-image-2"></span>
+                                <span id="slider-image-3"></span>
+                                
+                                    <div class="image-container">
+                                        <img src="{{ url_for('static', filename='images/index/1140-hospital-room.jpg') }}/" class="slider-image" >
+                                        <img src="{{ url_for('static', filename='images/index/1140x655-coronavirus.jpg') }}/" class="slider-image" >
+                                        <img src="{{ url_for('static', filename='images/index/1140x655-nursing.jpg') }}/" class="slider-image" >
+                                    </div>
+                                <div class="button-container" >
+                                <a href="#slider-image-1" class="slider-button"></a>
+                                <a href="#slider-image-2" class="slider-button"></a>
+                                <a href="#slider-image-3" class="slider-button"></a>
                                 </div>
-							<div class="button-container" >
-							<a href="#slider-image-1" class="slider-button"></a>
-							<a href="#slider-image-2" class="slider-button"></a>
-							<a href="#slider-image-3" class="slider-button"></a>
-							</div>
 						    </div>
 						</div>
 				    </div>
@@ -77,24 +92,20 @@
             </section>
             
             <hr>
-            <section class="clients section">
-                <div class="container">
-                    <div class="clients-inner section-inner">
-                        <div class="container-sm">
-                            <ul class="list-reset mb-0">
-                                <li>
-                                    <img src="{{ url_for('static', filename='images/index/bolt.png') }}/" width="132" height="40">
-                                </li>
-                                <li>
-                                    <img src="{{ url_for('static', filename='images/index/valdzia.jpg') }}/" width="132" height="40">
-                                </li>
-                            </ul>
+            <center>
+                <section class="section center">
+                    <div class="row" style="width: 1000px;">
+                        <div class="column">
+                            <img style="width: 190px; height: 60px;" src="{{ url_for('static', filename='images/index/red_cross_org.png') }}/">
+                        </div>
+                        <div class="column">
+                            <img style="width: 150px; height: 150px; margin-top: -50px; margin-bottom: -50px;" src="{{ url_for('static', filename='images/index/no_money.png') }}/">
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </center>
             <hr>
-
+            
             <p class="section-header">MEDICINOS AKTUALIJOS</p>
 
             <section class="cards section center" style="width: 80%;">
@@ -159,6 +170,6 @@
             </div>
         </footer>
     </div>
-    <script src="{{ url_for('static', filename='scripts/index/main.min.js') }}/"></script>
+    <script src="{{ url_for('static', filename='scripts/main.min.js') }}"></script>
 </body>
 </html>

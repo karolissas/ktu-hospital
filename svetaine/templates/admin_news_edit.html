@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KTU ligonine</title>
+    <link href="https://fonts.googleapis.com/css?family=Sans-serif:400,400i|PT+Serif:700" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/admin_news/style.css') }}">
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+</head>
+<body class="is-boxed has-animations">
+    <div class="body-wrap boxed-container">
+        <header class="site-header">
+            <div class="container">
+                <div class="site-header-inner">
+                    <div class="brand header-brand">
+                        <h1 class="m-0">
+                            <a href="#">
+                                <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                    <title>KTU ligonine</title>
+                                    <defs>
+                                        <div id="header" style="min-width:200px;">
+                                            <a href="{{ url_for('home') }}"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}/" alt=""></a>
+                                        </div>
+                                    </defs>
+                                    <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd" />
+                                </svg>
+                            </a>
+                        </h1>
+                    </div>
+                    <ul class="header-links list-reset m-0 menu-pos">
+						<li><a href="{{ url_for('admin_news') }}">Naujienos</a></li>
+						<li><a href="{{ url_for('user_list_admin') }}">Naudotojai</a></li>
+						<li><a href="{{ url_for('system_status') }}">Sistema</a></li>
+					</ul>
+					<div class="navbar_right menu-pos">
+                        <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fas fa-chevron-down"></i>
+                                <span class="username" style="padding-left: 50px;">{{ user.first_name }} {{ user.last_name }} </span>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="{{ url_for('account') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036;">Nustatymai</a>
+                                <a href="{{ url_for('logout') }}">Atsijungti</a>
+                            </div>
+                        </div>
+                	</div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="blog-section">
+                <div class="section-content blog">
+                    <div class="title">
+                        <h2 class="title">Redagavimas</h2>
+                    </div>
+                    <div class="card2 card2-update" style="border-radius:10px;box-shadow: 0px 0px 5px 5px grey;">
+                        <form style="margin-left: 20px;" action="{{ url_for('admin_news_edit', news_id=news.id) }}" method="POST" enctype="multipart/form-data">
+                            <br>
+
+                            <div class="form-group">
+                                <label class="form-label">Data</label><br>
+                                {{ form.date(class_='input-box', size='50', placeholder='mmmm-mm-dd hh:mm', value=news.date) }}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Pavadinimas</label><br>
+                                {{ form.title(class_='input-box', size='57', placeholder='Įveskite straipsnio pavadinimą...', value=news.title) }}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Turinys</label><br>
+                                {{ form.text(class_='input-box', cols='60', rows='7', placeholder='Įveskite straipsnio tekstą...', style='resize:none;') }}                               
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Įkelti nuotrauką (.png)</label><br>
+                                {{ form.image() }}
+                            </div>
+
+                            <div class="text-right mt-3">
+                                <button type="submit" class="button" style="position:absolute;margin-top: -25px; right: 20px;">Atnaujinti</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="site-footer-inner">
+                    <div class="brand footer-brand">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='logo.png') }}" alt="" width="50" height="50" viewBox="0 0 32 32">
+                        </a>
+                    </div>
+                    <ul class="footer-links list-reset">
+                        <li>
+                            <a href="{{ url_for('home') }}">Pradinis</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('info') }}">Informacija</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('contacts') }}">Kontaktai</a>
+                        </li>
+                    </ul>
+                    <ul></ul>
+                    <div class="footer-copyright" style="font-family: sans-serif;">© 2022 KTU ligoninė, visos teisės saugomos.</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/main.min.js') }}"></script>
+</body>
+</html>

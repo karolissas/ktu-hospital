@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KTU ligonine</title>
+    <link href="https://fonts.googleapis.com/css?family=Sans-serif:400,400i|PT+Serif:700" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles/news/style.css') }}" type="text/css" rel="stylesheet">
+    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+</head>
+<body class="is-boxed has-animations">
+    <div class="body-wrap boxed-container">
+        <header class="site-header">
+            <div class="container">
+                <div class="site-header-inner">
+                    <div class="brand header-brand">
+                        <h1 class="m-0">
+                            <a href="#">
+                                <svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                                    <title>KTU ligonine</title>
+                                    <defs>
+										</defs></svg></a><div id="header" style="min-width:200px;"><a href="#">
+                                            </a><a href="/"><img class="main-logo" src="{{ url_for('static', filename='logo.png') }}" alt=""></a>
+										</div>
+                                    
+                                    <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd">
+                        </path></h1>
+                    </div>
+                    
+                    <ul class="header-links list-reset m-0 menu-pos">
+						<li><a href="{{ url_for('home') }}">Pradinis</a></li>
+						<li><a href="{{ url_for('info') }}">Informacija</a></li>
+						<li><a href="{{ url_for('contacts') }}">Kontaktai</a></li>
+                        <li><a href="{{ url_for('meet') }}">E.Susitikimas</a></li>
+					</ul>
+                    {% if session.is_authenticated %}
+					<div class="navbar_right menu-pos">
+                        <img src="{{ url_for('static', filename='user_images/' + session.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fas fa-chevron-down"></i>
+                                <span class="username" style="padding-left: 50px;">{{ session.first_name }} {{ session.last_name }} </span>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="{{ url_for('account') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036;">Nustatymai</a>
+                                <a href="{{ url_for('logout') }}">Atsijungti</a>
+                            </div>
+                        </div>
+                	</div>
+                    {% else %}
+                    <ul class="header-links list-reset m-0 menu-pos">
+						<li><a>&emsp;</li>
+                        <li>
+                            <a class="button button-sm button-shadow" href="{{ url_for('login') }}">Prisijungti</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('register') }}"> Registruotis</a>
+                        </li>
+                    </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="blog-section">
+                <div class="section-content blog">
+                    <div class="title">
+                        <h2 class="title">Naujienos</h2>
+                    </div>
+                    <div class="cards">
+                        {% for news in allnews %}
+                        <div class="card">
+                            <div class="image-section">
+                                <img src="{{ url_for('static', filename='news_images/' + news.image_url) }}">
+                            </div>
+                            <div class="article">
+                                <h4>{{ news.title }}</h4>
+                                <p>{{ news.text }}</p>
+                            </div>
+                            <div class="post-date">
+                                <p>Paskelbta {{ news.date }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+
+        </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <div class="site-footer-inner">
+                    <div class="brand footer-brand">
+                        <a href="#">
+                            <img src="{{ url_for('static', filename='logo.png') }}" alt="" width="50" height="50" viewBox="0 0 32 32">
+                        </a>
+                    </div>
+                    <ul class="footer-links list-reset">
+                        <li>
+                            <a href="{{ url_for('home') }}">Pradinis</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('info') }}">Informacija</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('contacts') }}">Kontaktai</a>
+                        </li>
+                    </ul>
+                    <ul></ul>
+                    <div class="footer-copyright">© 2022 KTU ligoninė, visos teisės saugomos.</div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/main.min.js') }}"></script>
+</body>
+</html>

@@ -4,11 +4,12 @@ from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import StringField, PasswordField, DateField, FileField, IntegerField, SelectField
+from sqlalchemy import desc
+from wtforms import StringField, PasswordField, DateField, FileField, IntegerField, SelectField, TextAreaField
 from wtforms.validators import InputRequired, Email, Length
-from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
-import secrets, os
+from werkzeug.utils import secure_filename
+import secrets, os, datetime
 
 # Sukuriama aplikacijos konfigūracija
 app = Flask(__name__)
@@ -65,11 +66,30 @@ class RegistrationForm(FlaskForm):
 class JoinMeet(FlaskForm):
     patient_id = StringField('Paciento ID', validators=[InputRequired()])
 # -----------------------------------------------------------------------------------------------------
-#-- filtravimo forma vizitams
+#-- Filtravimo forma vizitams
 class FilterVisits(FlaskForm):
     position = SelectField("test")
     first_lastname = StringField('Vardas Pavarde')
     visit_date = DateField('0000-00-00')
+# -----------------------------------------------------------------------------------------------------
+#-- Naudotojo duomenų redagavimo forma
+class EditUser(FlaskForm):
+    unique_id = StringField('Naudotojo ID')
+    first_name = StringField('Vardas', validators=[InputRequired(), Length(min=3, max=50)])
+    last_name = StringField('Pavardė', validators=[InputRequired(), Length(min=3, max=20)])
+    personal_code = StringField('Asmens kodas', validators=[InputRequired(), Length(min=11, max=11)])
+    position = StringField('Naudotojo rolė', validators=[InputRequired(), Length(min=3, max=50)])
+    email = StringField('El. pašto adresas', validators=[InputRequired(), Email(message='Neteisingas el. pašto adresas'), Length(max=50)])
+    phone = StringField('Telefono numeris', validators=[InputRequired(), Length(min=5)])
+    password = StringField('Slaptažodis')
+# -----------------------------------------------------------------------------------------------------
+#-- Naujienų redagavimo forma
+class NewsForm(FlaskForm):
+    id = IntegerField('ID')
+    date = DateField('Data', format='%Y-%m-%d', default=datetime.datetime.now())
+    title = StringField('Pavadinimas', validators=[InputRequired()])
+    text = TextAreaField('Tekstas', validators=[InputRequired()])
+    image = FileField(u'Nuotrauka')
 # -----------------------------------------------------------------------------------------------------
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
 # Vartotojų sesijų paleidimas
@@ -85,7 +105,6 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(20))
     last_name = db.Column(db.String(20))
     personal_code = db.Column(db.String(11))
-    birthday = db.Column(db.String(10))
     email = db.Column(db.String(50))
     phone = db.Column(db.String(15))
     position = db.Column(db.String(50))
@@ -109,6 +128,18 @@ class Visits(db.Model):
 
     def get_id(self):
         return (self.doctor_unique_id)
+# -----------------------------------------------------------------------------------------------------
+# -- Naujienų klasė
+class News(db.Model):
+    __tablename__ = 'news'
+    id = db.Column(db.Integer, primary_key = True, unique = True)
+    date = db.Column(db.String(16), default=datetime.datetime.now())
+    title = db.Column(db.String(200))
+    text = db.Column(db.String(1000))
+    image_url = db.Column(db.String(100))
+
+    def get_id(self):
+        return (self.id)
 # -----------------------------------------------------------------------------------------------------
 # -- Vizitų duomenų klasė
 class PatientsHistory(db.Model):
@@ -171,11 +202,12 @@ def getAllpositions():
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template('index.html', session = current_user)
 
 @app.route("/informacija")
 def info():
-    return render_template('info.html')
+    allnews = News.query.all()
+    return render_template('news.html', session = current_user, allnews = allnews)
 
 @app.route("/kontaktai")
 def contacts():
@@ -354,7 +386,7 @@ def visits_register():
     return render_template('visits-register.html', user = current_user, visits = visit, len = len2)
 
 @login_required
-@app.route('/vartotojai')
+@app.route('/naudotojai')
 def user_list_admin():
     if(current_user.position == "Administratorius"):
         userlist = User.query.all()
@@ -376,6 +408,104 @@ def meet():
             return render_template('meet.html', user = current_user, form = form, message = message, msg_color = msg_color)
     else:
         return render_template('meet.html', user = current_user, form = form, message = message, msg_color = msg_color)
+
+@app.route('/naudotojai/<user_id>/redagavimas', methods=['GET', 'POST'])
+def update_user(user_id):
+    if(current_user.position == "Administratorius"):
+        form = EditUser()
+        edituser = User.query.get(user_id)
+        if request.method == 'POST' and form.validate_on_submit():
+            edituser.unique_id = edituser.unique_id
+            edituser.first_name = form.first_name.data
+            edituser.last_name = form.last_name.data
+            edituser.personal_code = form.personal_code.data
+            edituser.position = form.position.data
+            edituser.email = form.email.data
+            edituser.phone = form.phone.data
+            edituser.password = edituser.password
+            if form.password.data:
+                passhash = generate_password_hash(form.password.data, method='sha256')
+                edituser.password = passhash
+            db.session.commit()
+            return redirect(url_for('user_list_admin'))
+        else:
+            return render_template('user-edit.html', form = form, user = current_user, edituser=edituser)
+    else:
+        return render_template('index.html')
+
+@app.route('/paskyra/naujienos', methods=['GET', 'POST'])
+def admin_news():
+    if(current_user.position == "Administratorius"):
+        user = current_user
+        allnews = News.query.order_by(desc(News.id)).all()
+        return render_template('admin_news.html', user = user, allnews = allnews)
+    else:
+        return render_template('index.html')
+
+@app.route('/paskyra/naujienos/<news_id>/redagavimas', methods=['GET', 'POST'])
+def admin_news_edit(news_id):
+    if(current_user.position == "Administratorius"):
+        form = NewsForm()
+        news = News.query.get(news_id)
+        form.text.data = news.text
+        if request.method == 'POST' and form.validate_on_submit():
+            news.id = news.id
+            news.date = form.date.data
+            news.title = form.title.data
+            news.text = request.form['text']
+            file = form.image.data
+            if file:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.root_path, 'static/news_images/' + filename))
+                news.image_url = filename
+            else:
+               news.image_url = news.image_url
+            db.session.commit()
+            return redirect(url_for('admin_news'))
+        return render_template('admin_news_edit.html', user = current_user, form = form, news = news)
+    else:
+        return render_template('index.html')
+
+@app.route('/paskyra/naujienos/<news_id>/naikinti', methods=['GET', 'POST'])
+def admin_news_delete(news_id):
+    if(current_user.position == "Administratorius"):
+        news = News.query.get(news_id)
+        db.session.delete(news)
+        db.session.commit()
+        return redirect(url_for('admin_news'))
+    else:
+        return render_template('index.html')
+
+@app.route('/paskyra/naujienos/prideti', methods=['GET', 'POST'])
+def admin_news_add():
+    form = NewsForm()
+    if(current_user.position == "Administratorius"):
+        if request.method == 'POST' and form.validate_on_submit():
+            ldate = form.date.data
+            ltitle = form.title.data
+            ltext = request.form['text']
+            file = form.image.data
+            if file:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.root_path, 'static/news_images/' + filename))
+                limage_url = filename
+            else:
+               limage_url = news.image_url
+            news = News(date = ldate, title = ltitle, text = ltext, image_url = limage_url)
+            db.session.add(news)
+            db.session.commit()
+            return redirect(url_for('admin_news'))
+        return render_template('admin_news_add.html', user = current_user, form = form)
+    else:
+        return render_template('index.html')
+
+@app.route('/sistema')
+def system_status():
+    if(current_user.position == "Administratorius"):
+        user = current_user
+        return render_template('admin_news.html', user = user)
+    else:
+        return render_template('index.html')
 
 if __name__ == "__main__":
     app.run(debug = True)
