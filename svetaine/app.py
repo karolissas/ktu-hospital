@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from flask_wtf import FlaskForm
 from flask_wtf.csrf import CSRFProtect
 from flask_bootstrap import Bootstrap
@@ -10,7 +10,8 @@ from wtforms.validators import InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import secrets, os, datetime
-#senas
+import psutil
+
 # Sukuriama aplikacijos konfigūracija
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_urlsafe(25)
@@ -19,6 +20,11 @@ app.config['WTF_CSRF_ENABLED'] = False
 app.static_folder = 'static'
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 Bootstrap(app)
+sessionc = 0
+def sessionstuff(a):
+
+    sessionc +=a
+    return sessionc
 
 # Sukuriamas ryšys su duomenų baze
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -123,6 +129,9 @@ class Visits(db.Model):
     doctor_unique_id = db.Column(db.String(20))
     time = db.Column(db.String(16))
     url_link = db.Column(db.String(100), unique = True)
+    reason = db.Column(db.String(100))
+    room = db.Column(db.Integer)
+    time_visit = db.Column(db.String(16))
     doctor_name = ""
     doctor_position = ""
 
@@ -180,6 +189,16 @@ def getPatientsVisitsList1(name, date, position):
                         doctor_list.append(x)
     return doctor_list, len(doctor_list)
 
+def getPatientsListDoc(search):
+    splitas = search.split()
+    name = splitas[0]
+    surname = splitas[1]
+    patients = User.query.filter((User.first_name == name) & (User.last_name == surname)).all()
+    b = []
+    for x in patients:
+        b.append(x)
+    return b
+
 def getPatientsVisitsList():
     doctor_list = []
     doctor = Visits.query.filter_by(user_unique_id = current_user.unique_id).all()
@@ -190,6 +209,21 @@ def getPatientsVisitsList():
         doctor_list.append(x)
     return doctor_list, len(doctor_list)
 
+def getDoctorVisitList():
+    visit_list = []
+    doctor = Visits.query.filter_by(doctor_unique_id = current_user.unique_id).all()
+    for x in doctor:
+        tmp = []
+        a = db.session.query(User).filter_by(unique_id = x.user_unique_id).first()
+        full_name = a.first_name + " " + a.last_name
+        tmp.append(full_name)
+        tmp.append(a.phone)
+        tmp.append(x.reason)
+        tmp.append(x.time)
+        tmp.append(x.time_visit)
+        tmp.append(x.room)
+        visit_list.append(tmp)
+    return visit_list
 def getAllpositions():
     tulpe = (0, "Specialybe")
     newarr = [tulpe]
@@ -238,7 +272,7 @@ def login():
                 message = 'Paskyra nerasta.'
                 msg_color = 'darkred'
                 return render_template('login.html', form = form, message = message, msg_color = msg_color)
-
+    
     return render_template('login.html', form = form)
 
 @app.route("/registracija", methods=['GET', 'POST'])
@@ -360,6 +394,24 @@ def account():
 @app.route('/ligu-istorija')
 def patient_history():
     return render_template('patient_history.html', user = current_user, visits = getPatientsHistoryList(), len = len(getPatientsHistoryList()))
+
+@login_required
+@app.route('/ligu-istorija-m', methods=['GET', 'POST'])
+def patient_history_medics():
+    form = FilterVisits()
+    if request.method == 'POST':
+        return render_template('patient_history_m.html', user = current_user, list = getPatientsListDoc(form.first_lastname.data), len = len(getPatientsListDoc(form.first_lastname.data)), form = form )
+    
+    patientlist = User.query.filter_by(position = "Pacientas").all()
+    return render_template('patient_history_m.html', user = current_user, list = patientlist, len = len(patientlist), form = form )
+
+
+@login_required
+@app.route('/vizitai-m', methods=['GET', 'POST'])
+def med_visits():
+    
+    return render_template('appointments.html', user = current_user, list = getDoctorVisitList(), len = len(getDoctorVisitList()))
+
 
 @login_required
 @app.route('/paslaugos')
@@ -499,11 +551,14 @@ def admin_news_add():
     else:
         return render_template('index.html')
 
-@app.route('/sistema')
-def system_status():
+
+@app.route('/sistemos-statusas')
+def system_usage():
     if(current_user.position == "Administratorius"):
         user = current_user
-        return render_template('admin_news.html', user = user)
+        user_c = len(User.query.all())
+        session24 = "neveikia"
+        return render_template('system.html', user = user, ram = psutil.virtual_memory().percent, cpu = psutil.cpu_percent(), ses = session24, ses24 = session24, user_c = user_c, load=psutil.getloadavg()[2])
     else:
         return render_template('index.html')
 
