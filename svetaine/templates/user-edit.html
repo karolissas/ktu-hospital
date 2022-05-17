@@ -11,118 +11,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Sans-serif:400,400i|PT+Serif:700" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/useredit/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/useredit/css.css') }}">
-<script type="text/javascript">// Promises 
-var _eid_promises = {}; 
-if (typeof isignDebug !== 'function') { 
-    var isignDebug = function(msg){}; 
-} 
-// Turn the incoming message from extension 
-// into pending Promise resolving 
-window.addEventListener("message", function(event) { 
-    if(event.source !== window) return; 
-    if(event.data.src && (event.data.src === "isign-background.js")) { 
-        isignDebug("Page received: "); 
-        isignDebug(event.data); 
-        // Get the promise 
-        if(event.data.nonce) { 
-            var p = _eid_promises[event.data.nonce]; 
-            // resolve 
-            if(event.data.result === "ok") { 
-                if(event.data.signature !== undefined) { 
-                    if(p){ 
-                        p.resolve({hex: event.data.signature}); 
-                    } 
-                } else if(event.data.certificate !== undefined) { 
-                    if(p){ 
-                        var info = {hex: event.data.certificate, module: event.data.module, slot: event.data.slot, name: event.data.name, issuer: event.data.issuer, isLoginCertificate: event.data.isLoginCertificate, isSigningCertificate: event.data.isSigningCertificate, validTo: event.data.validTo, log: event.data.log, driversList: event.data.driversList}; 
-                        if(event.data.hardwareManufacturer){
-                            info.hardwareManufacturer = event.data.hardwareManufacturer;
-                        }
-                        if(event.data.hardwareLabel){
-                            info.hardwareLabel = event.data.hardwareLabel;
-                        }
-                        p.resolve(info); 
-                    } 
-                } else if(event.data.nativeHostVersion !== undefined) { 
-                    var result = {nativeHostVersion: event.data.nativeHostVersion, driversFound: event.data.driversFound, driversList: event.data.driversList}; 
-                    if(event.data.log){ 
-                        result.log = event.data.log; 
-                    } 
-                    if(p){ 
-                        p.resolve(result); 
-                    } 
-                } else if(event.data.version !== undefined) { 
-                    var result = {version: event.data.extension + "/" + event.data.version, driversFound: event.data.driversFound}; 
-                    if(event.data.log){ 
-                        result.log = event.data.log; 
-                    } 
-                    if(p){ 
-                        p.resolve(result); 
-                    } 
-                } else { 
-                    isignDebug("No idea how to handle message"); 
-                    isignDebug(event.data); 
-                } 
-            } else { 
-                // reject 
-                if(p){ 
-                    p.reject(new Error(JSON.stringify(event.data))); 
-                } 
-            } 
-            delete _eid_promises[event.data.nonce]; 
-        } else { 
-            isignDebug("No nonce in event msg"); 
-        } 
-    } 
-}, false); 
- 
- 
-function IsignChromeSigning() { 
-    function nonce() { 
-        var val = ""; 
-        var hex = "abcdefghijklmnopqrstuvwxyz0123456789"; 
-        for(var i = 0; i < 16; i++) val += hex.charAt(Math.floor(Math.random() * hex.length)); 
-        return val; 
-    } 
- 
-    function messagePromise(msg) { 
-        return new Promise(function(resolve, reject) { 
-            // amend with necessary metadata 
-            msg['nonce'] = nonce(); 
-            msg['src'] = 'isign-page.js'; 
-            // send message 
-            window.postMessage(msg, "*"); 
-            // and store promise callbacks 
-            _eid_promises[msg.nonce] = { 
-                resolve: resolve, 
-                reject: reject 
-            }; 
-        }); 
-    } 
-    this.getCertificate = function(options) { 
-        if(options.policyId && (typeof options.policyIds === 'undefined' || options.policyIds.length == 0)){ 
-            options.policyIds = new Array(); 
-            options.policyIds.push(options.policyId); 
-        } 
-        if(typeof options.residency === 'undefined') { 
-            options.residency = ''; 
-        } 
-        var msg = {type: 'CERT', lang: options.lang, certificatePurpose: options.certificatePurpose, isInitial: options.isInitial, policyId: options.policyId, policyIds: options.policyIds, bulkSigning: options.bulkSigning, residency: options.residency}; 
-        isignDebug("getCertificate()"); 
-        return messagePromise(msg); 
-    }; 
-    this.sign = function(cert, hash, options) { 
-        var msg = {type: 'SIGN', cert: cert.hex, hash: hash.hex, module: cert.module, slot: cert.slot, isLoginCertificate: cert.isLoginCertificate, isSigningCertificate: cert.isSigningCertificate, hashAlgorithm: hash.type, lang: options.lang}; 
-        isignDebug("sign()"); 
-        return messagePromise(msg); 
-    }; 
-    this.getVersion = function() { 
-        isignDebug("getVersion()"); 
-        return messagePromise({ 
-            type: 'VERSION' 
-        }); 
-    }; 
-}</script></head>
+</head>
 <body class="is-boxed has-animations" style="height: 100%;">
 	<div class="body-wrap boxed-container">
 		<header class="site-header">
@@ -147,6 +36,7 @@ function IsignChromeSigning() {
 						<li><a href="{{ url_for('admin_news') }}">Naujienos</a></li>
 						<li><a href="{{ url_for('user_list_admin') }}">Naudotojai</a></li>
 						<li><a href="{{ url_for('system_status') }}">Sistema</a></li>
+                        <li><a href="{{ url_for('system_usage') }}">Sistemos statusas</a></li>
 					</ul>
 					<div class="navbar_right menu-pos">
                         <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
