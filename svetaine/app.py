@@ -10,7 +10,7 @@ from wtforms.validators import InputRequired, Email, Length
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import secrets, os, datetime
-
+#senas
 # Sukuriama aplikacijos konfigūracija
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_urlsafe(25)
