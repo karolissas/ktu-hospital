@@ -457,9 +457,17 @@ def meet():
         else:
             message = 'Įveskite paciento ID'
             msg_color = 'darkred'
-            return render_template('meet.html', user = current_user, form = form, message = message, msg_color = msg_color)
+            return render_template('meet.html', session = current_user, form = form, message = message, msg_color = msg_color)
     else:
         return render_template('meet.html', user = current_user, form = form, message = message, msg_color = msg_color)
+
+@app.route('/e-susitikimas/kas-tai', methods=['GET', 'POST'])
+def what_is_meeting():
+    return render_template('what_is_meeting.html', session = current_user)
+
+@app.route('/e-susitikimas/kaip-naudotis', methods=['GET', 'POST'])
+def how_to_use():
+    return render_template('how_to_use.html', session = current_user)
 
 @app.route('/naudotojai/<user_id>/redagavimas', methods=['GET', 'POST'])
 def update_user(user_id):

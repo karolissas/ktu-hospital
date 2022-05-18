@@ -29,17 +29,35 @@
                             </a>
                         </h1>
                     </div>
-                    <ul class="header-links list-reset m-0 menu-pos text-font">
-                        <li><a href="{{ url_for('home') }}">Pradinis</a></li>
-						<li><a href="#">Kas yra E.SUSITIKIMAS?</a></li>
-						<li><a href="#">Kaip naudotis?</a></li>
+                    <ul class="header-links list-reset m-0 menu-pos text-font" style="padding-right: 50px;">
+                        <li><nobr><a href="{{ url_for('home') }}">Pradinis</a></nobr></li>
+						<li><nobr><a href="{{ url_for('what_is_meeting') }}">Kas yra E.SUSITIKIMAS?</a></nobr></li>
+						<li><nobr><a href="{{ url_for('how_to_use') }}">Kaip naudotis?</a></nobr></li>
 					</ul>
-					<ul class="header-links list-reset m-0 menu-pos text-font">
+					{% if session.is_authenticated %}
+					<div class="navbar_right menu-pos">
+                        <img src="{{ url_for('static', filename='user_images/' + session.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
+                        <div class="dropdown">
+                            <button class="dropbtn"><i class="fas fa-chevron-down"></i>
+                                <span class="username" style="padding-left: 50px;">{{ session.first_name }} {{ session.last_name }} </span>
+                            </button>
+                            <div class="dropdown-content">
+                                <a href="{{ url_for('account') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036;">Nustatymai</a>
+                                <a href="{{ url_for('logout') }}">Atsijungti</a>
+                            </div>
+                        </div>
+                	</div>
+                    {% else %}
+                    <ul class="header-links list-reset m-0 menu-pos">
 						<li><a>&emsp;</li>
                         <li>
-                            <a class="button button-sm button-shadow" href="{{ url_for('home') }}">Grįžti į pradinį</a>
+                            <a class="button button-sm button-shadow" href="{{ url_for('login') }}">Prisijungti</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('register') }}"> Registruotis</a>
                         </li>
                     </ul>
+                    {% endif %}
                 </div>
             </div>
         </header>
