@@ -11,6 +11,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import secrets, os, datetime
 import psutil
+import hashlib
 
 # Sukuriama aplikacijos konfigūracija
 app = Flask(__name__)
@@ -96,6 +97,15 @@ class NewsForm(FlaskForm):
     title = StringField('Pavadinimas', validators=[InputRequired()])
     text = TextAreaField('Tekstas', validators=[InputRequired()])
     image = FileField(u'Nuotrauka')
+
+#-registracijos vizitams
+class VisitsForm(FlaskForm):
+    time = DateField('0000-00-00')
+    reason = TextAreaField('Tekstas', validators=[InputRequired()])
+    room = IntegerField('Kabinetas')
+    name = StringField('Vardas', validators=[InputRequired()])
+    remote = SelectField("test", choices=[('1', 'Nuotolinis'), ('0', 'Kontaktinis')])
+
 # -----------------------------------------------------------------------------------------------------
 # /////////////////////////////////////////////////////////////////////////////////////////////////////
 # Vartotojų sesijų paleidimas
@@ -558,6 +568,25 @@ def admin_news_add():
         return render_template('admin_news_add.html', user = current_user, form = form)
     else:
         return render_template('index.html')
+
+@login_required
+@app.route('/registracija-vizitui', methods=['GET', 'POST'])
+def visits_register():
+    form = VisitsForm()
+    visit, len2 = getPatientsVisitsList()
+    succsessful = 0
+    if request.method == 'POST':
+        succsessful = 1
+        if form.remote.data == "1":
+            url = "{0}{1}{2}{3}".format(current_user.unique_id, form.name.data, form.reason.data, form.time.data)
+            remoteurl = "https://ktuligonine.lt:4433/{0}".format(hashlib.md5(url.encode()).hexdigest())
+        else:
+            remoteurl = None
+        vizitas = Visits(user_unique_id = current_user.unique_id, doctor_unique_id = getPatientsListDoc(form.name.data)[0].unique_id, time = form.time.data, reason = form.reason.data, url_link = remoteurl, room = 66, time_visit = "12:36")
+        db.session.add(vizitas)
+        db.session.commit()
+        return render_template('patient_register.html', user = current_user, form = form, visits = visit, len = len2, succ = succsessful)
+    return render_template('patient_register.html', user = current_user, visits = visit, len = len2, form = form, succ=succsessful)
 
 
 @app.route('/sistemos-statusas')
