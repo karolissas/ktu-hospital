@@ -459,7 +459,7 @@ def meet():
             msg_color = 'darkred'
             return render_template('meet.html', session = current_user, form = form, message = message, msg_color = msg_color)
     else:
-        return render_template('meet.html', user = current_user, form = form, message = message, msg_color = msg_color)
+        return render_template('meet.html', session = current_user, form = form, message = message, msg_color = msg_color)
 
 @app.route('/e-susitikimas/kas-tai', methods=['GET', 'POST'])
 def what_is_meeting():
