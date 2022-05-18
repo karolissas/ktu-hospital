@@ -29,13 +29,12 @@
                                     <path d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm0-10a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" fill="url(#logo-gradient)" fill-rule="evenodd">
                         </path></h1>
                     </div>
-                    <ul class="header-links list-reset m-0 menu-pos">
-						<li><a href="{{ url_for('home') }}">Pradinis</a></li>
-						<li><a href="{{ url_for('info') }}">Informacija</a></li>
-						<li><a href="{{ url_for('contacts') }}">Kontaktai</a></li>
-                        <li><a href="{{ url_for('meet') }}">E.Susitikimas</a></li>
+                    <ul class="header-links list-reset m-0 menu-pos text-font">
+                        <li><nobr><a href="{{ url_for('home') }}">Pradinis</a></nobr></li>
+						<li><nobr><a href="{{ url_for('what_is_meeting') }}">Kas yra E.SUSITIKIMAS?</a></nobr></li>
+						<li><nobr><a href="{{ url_for('how_to_use') }}">Kaip naudotis?</a></nobr></li>
 					</ul>
-                    {% if session.is_authenticated %}
+					{% if session.is_authenticated %}
 					<div class="navbar_right menu-pos">
                         <img src="{{ url_for('static', filename='user_images/' + session.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
                         <div class="dropdown">
@@ -55,7 +54,7 @@
                             <a class="button button-sm button-shadow" href="{{ url_for('login') }}">Prisijungti</a>
                         </li>
                         <li>
-                            <a href="{{ url_for('register') }}"> Registruotis</a>
+                            <a href="{{ url_for('register') }}">Registruotis</a>
                         </li>
                     </ul>
                     {% endif %}
