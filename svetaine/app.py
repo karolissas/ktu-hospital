@@ -441,11 +441,7 @@ def visits():
         visit, len2 = getPatientsVisitsList()
         return render_template('visits.html', user = current_user, form = form, visits = visit, len = len2)
 
-@login_required
-@app.route('/registracija-vizitui')
-def visits_register():
-    visit, len2 = getPatientsVisitsList()
-    return render_template('visits-register.html', user = current_user, visits = visit, len = len2)
+
 
 @login_required
 @app.route('/naudotojai')
