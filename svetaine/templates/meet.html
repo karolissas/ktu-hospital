@@ -34,7 +34,7 @@
 						<li><nobr><a href="{{ url_for('what_is_meeting') }}">Kas yra E.SUSITIKIMAS?</a></nobr></li>
 						<li><nobr><a href="{{ url_for('how_to_use') }}">Kaip naudotis?</a></nobr></li>
 					</ul>
-					{% if session.is_authenticated %}
+					{% if session.is_authenticated %} 
 					<div class="navbar_right menu-pos">
                         <img src="{{ url_for('static', filename='user_images/' + session.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
                         <div class="dropdown">
