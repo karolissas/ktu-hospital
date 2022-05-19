@@ -32,11 +32,11 @@
                             </a>
                         </h1>
                     </div>
-                    <ul class="header-links list-reset m-0">
+                    <ul class="header-links list-reset m-0 menu-pos">
                         <li><a href="{{ url_for('med_visits') }}">Vizitai</a></li>
 						<li><a href="{{ url_for('patient_history_medics') }}">Pacientai</a></li>
 					</ul>
-					<div class="navbar_right">
+					<div class="navbar_right menu-pos">
                         <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
                         <div class="dropdown">
                             <button class="dropbtn"><i class="fas fa-chevron-down"></i>
@@ -54,15 +54,15 @@
 
     <div class="container">
         <div class="site-header-inner">
-            <div class="brand header-brand" style="margin-left:auto; margin-right:auto; width: 50%;">
-                <p class="section-header" >Pacientai</p>
+            <div class="brand header-brand" style="width: 1078px; text-align: center;">
+                <p class="section-header">Pacientai</p>
             </div>
         </div>
     </div>
 
-    <form class="search-box" style="z-index: 99999; margin: auto; width: 1078px; margin-top: 100px;" method="POST" action="{{ url_for('patient_history_medics') }}">
+    <form class="search-box" style="z-index: 99999; width: 678px; margin-left: auto; margin-right: auto; margin-top: 100px;" method="POST" action="{{ url_for('patient_history_medics') }}">
             {{form.first_lastname(placeholder='Vardas Pavarde', style='margin-left: 36%;margin-bottom: 30px;')}}
-                <div style="margin-left: 40%; margin-bottom:50px; margin-top: -20px;">
+                <div style="text-align: center; margin-bottom:50px; margin-top: -20px;">
                     <input class="button button-primary" type="submit">
                 </div>
         </form>

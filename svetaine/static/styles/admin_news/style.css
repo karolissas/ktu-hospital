@@ -524,3 +524,7 @@ body {
 	border-radius: 0.4em;
 	font-family: sans-serif;
 }
+
+.menu-pos {
+	padding-top: 70px;
+}

@@ -66,20 +66,20 @@
 
         <div class="container">
             <div class="site-header-inner">
-                <div class="brand header-brand" style="margin: auto; width: 50%; padding: 60px;">
-                    <p class="section-header" style="width: 1078px;">Mano vizitai</p>
+                <div class="brand header-brand" style="padding: 60px; width: 1078px; text-align: center;">
+                    <p class="section-header">Mano vizitai</p>
                 </div>
             </div>
         </div>
 
-        <form class="search-box" style="margin: auto; width: 1078px; margin-top: 100px;" method="POST" action="{{ url_for('visits') }}">
+        <form class="search-box" style="width: 950px; margin-left: auto; margin-right: auto; margin-top: 100px;" method="POST" action="{{ url_for('visits') }}">
             
             {{form.position}}
             
             {{form.first_lastname(placeholder='Vardas Pavarde')}}
             
             {{form.visit_date}}
-                <div style="margin-left: 40%; margin-bottom:50px; margin-top: -20px;">
+                <div style="text-align: center; margin-bottom:50px; margin-top: -20px;">
                     <input class="button button-primary" type="submit">
                 </div>
         </form>

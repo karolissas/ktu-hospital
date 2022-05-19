@@ -374,8 +374,6 @@ def account():
                 msg_color = 'lightgreen'
                 return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
         else:
-            message = 'Neįkeltas nuotraukos failas.'
-            msg_color = 'darkred'
             return render_template(load, user = current_user, changepass = changepass, changedata = changedata, changeimage = changeimage, message = message, msg_color = msg_color)
 
     # Slaptažodžio keitimo forma

@@ -33,7 +33,7 @@
                             </a>
                         </h1>
                     </div>
-                    <ul class="header-links list-reset m-0">
+                    <ul class="header-links list-reset m-0 menu-pos">
                         <div class="dropdown">
                             <button class="dropbtn">
                                 <i class="fas fa-chevron-down"></i>
@@ -52,7 +52,7 @@
                         <img src="{{ url_for('static', filename='user_images/' + user.image_url) }}" alt="profile_pic" style="position: absolute; border-radius: 50%;">
                         <div class="dropdown">
                             <button class="dropbtn"><i class="fas fa-chevron-down"></i>
-                                <span class="username" style="padding-left: 50px;">{{ user.first_name }} {{ user.last_name }} </span>
+                                <span class="username" style="padding-left: 50px;">{{ user.first_name }} {{ user.last_name }} </span><br>
                             </button>
                             <div class="dropdown-content">
                                 <a href="{{ url_for('account') }}" style="border-bottom: solid;border-width: 1px;border-color: #00000036;">Nustatymai</a>
@@ -61,6 +61,7 @@
                         </div>
                 	</div>
                 </div>
+                <nobr><p style="margin-top: 60px; color: {{msg_color}}; position: absolute; width: 1078px; text-align: center;">{{message}}</p></nobr>
             </div>
         </header>
 
