@@ -81,7 +81,7 @@
                     <div class="features-inner section-inner has-top-divider">
                         <h2 class="section-title mt-0">Įveskite paciento kodą</h2>
                         <form action="{{ url_for('meet') }}" method="POST" style="padding-bottom: 50px;">
-                            <p style="padding-bottom: 20px;">https://meet.ktuligonine.lt/{{ form.patient_id(style='border-radius:15px;', placeholder='paciento-id') }}</p>
+                            <p style="padding-bottom: 20px;">https://ktuligonine.lt:4433/{{ form.patient_id(style='border-radius:15px;', placeholder='paciento-id') }}</p>
                             <input class="button button-secondary" type="submit" value="Prisijungti">
                             <p style="font-family: sans-serif; font-size: 12px; color: {{msg_color}}; font-weight: bold;">{{ message }}</p>
                         </form>
